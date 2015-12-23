@@ -1,0 +1,16 @@
+#Trabalho_Redes
+
+Amigos, como para cada caso de uso acionado pelo cliente irá resultar em uma ação diferente que o servior irá executar, 
+acho que devemos estabelecer uma tag para cada ação, para que o servidor saiba qual ação executar.
+
+Sugestão de TAGs:
+
+  TAG    |        UC
+---------|---------------------------------------|
+INSERTAP | Inserir um arquivo em uma pasta       |
+INSERTPP | Inserir uma pasta em uma pasta        |
+CREATEP  | Criar uma pasta                       |
+SEEAP    | Ver arquivos e pastas de uma pasta    |
+DOWNA    | Baixar um arquivo                     |
+SHAREA   | Compartilhar um arquivo               |
+SHAREP   | Compartilhar uma pasta                |
