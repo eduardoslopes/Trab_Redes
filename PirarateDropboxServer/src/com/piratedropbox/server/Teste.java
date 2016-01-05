@@ -41,7 +41,6 @@ public class Teste {
 	    
 	    Socket s = new Socket("127.0.0.1", 8888);
 	    
-	    
 	}
 
 }
