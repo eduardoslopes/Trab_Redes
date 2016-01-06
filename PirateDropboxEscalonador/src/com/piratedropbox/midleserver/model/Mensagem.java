@@ -1,4 +1,4 @@
-package com.piratedropbox.server.model;
+package com.piratedropbox.midleserver.model;
 
 import com.google.gson.Gson;
 
@@ -6,6 +6,7 @@ public class Mensagem {
 	private String TAG;
 	private Object object;
 	private String cliente;
+
 
 	public static String mensagemToJson(Mensagem msg){
 		Gson gson = new Gson();
