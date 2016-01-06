@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import com.piratedropbox.server.model.Mensagem;
+
 public class Receiver extends Thread implements Runnable {
 
 	private Socket sender;
@@ -26,23 +28,14 @@ public class Receiver extends Thread implements Runnable {
 			String msg = null;
 			while(scanner.hasNextLine() && continua){
 				msg = scanner.nextLine();
-				continua = imprimeMensagem(msg);
+				continua = false;
 			}
 			Mensagem m = Mensagem.jsonToMensagem(msg);
-			System.out.println(m.getApelidoDono() + " saiu");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private boolean imprimeMensagem(String jsonMsg){
-		Mensagem novaMensagem = Mensagem.jsonToMensagem(jsonMsg);
-		System.out.println(novaMensagem.toString());
-		if( (!novaMensagem.getApelidoDono().equals("Servidor")) && novaMensagem.getMsg().toUpperCase().equals("TCHAU")){
-			return false;
-		}
-		return true;
-	}
 	
 	public void fecharSocket(){
 		try {

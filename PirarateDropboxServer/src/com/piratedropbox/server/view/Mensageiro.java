@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Scanner;
 
+import com.piratedropbox.server.model.Mensagem;
+
 public class Mensageiro extends Thread implements Runnable{
 	
 	Socket conexao; 
@@ -31,22 +33,11 @@ public class Mensageiro extends Thread implements Runnable{
 			PrintStream envia;
 			envia = new PrintStream(conexao.getOutputStream());
 			while(teclado.hasNextLine()){
-				if(!receiver.isAlive()){
-					break;
-				}
-				String texto = teclado.nextLine();
-				if(!receiver.isAlive()){
-					break;
-				}
-				Date data = new Date();
-				Mensagem msg = new Mensagem(texto, data, apelido);
+				Mensagem msg = new Mensagem();
 				envia.println(Mensagem.mensagemToJson(msg));
-				if(msg.getMsg().toUpperCase().equals("TCHAU")){
-					break;
 				}
-			}
-			receiver.fecharSocket();
-			conexao.close();
+				receiver.fecharSocket();
+				conexao.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
