@@ -14,11 +14,13 @@ public class Mensageiro extends Thread implements Runnable{
 	String apelido; 
 	Receiver receiver;
 	Scanner teclado;
+	private Mensagem msg;
 	
-	public Mensageiro(Socket conexao, String apelido, Receiver receiver){
+	public Mensageiro(Socket conexao, String apelido, Mensagem msg,Receiver receiver){
 		this.conexao = conexao;
 		this.apelido = apelido;
 		this.receiver = receiver;
+		this.msg = msg;
 	}
 	
 	@Override
@@ -33,7 +35,6 @@ public class Mensageiro extends Thread implements Runnable{
 			PrintStream envia;
 			envia = new PrintStream(conexao.getOutputStream());
 			while(teclado.hasNextLine()){
-				Mensagem msg = new Mensagem();
 				envia.println(Mensagem.mensagemToJson(msg));
 				}
 				receiver.fecharSocket();
