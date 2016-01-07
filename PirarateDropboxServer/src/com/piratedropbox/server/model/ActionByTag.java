@@ -38,12 +38,12 @@ public abstract class ActionByTag {
 			break;
 		}
 	}
-	abstract void insertAP(Arquivo arquivo, int idPasta);
-	abstract void insertPP(Pasta pasta, int idPasta);
-	abstract void createP(Pasta pasta);
-	abstract void seeAP(int idPasta);
-	abstract void downA(int idArquivo);
-	abstract void shareA(int idArquivo, String username);
-	abstract void shareP(int idPasta, String username);
+	public abstract void insertAP(Arquivo arquivo, int idPasta);
+	public abstract void insertPP(Pasta pasta, int idPasta);
+	public abstract void createP(Pasta pasta);
+	public abstract void seeAP(int idPasta);
+	public abstract void downA(int idArquivo);
+	public abstract void shareA(int idArquivo, String username);
+	public abstract void shareP(int idPasta, String username);
 
 }

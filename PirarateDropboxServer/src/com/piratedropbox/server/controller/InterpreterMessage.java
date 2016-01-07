@@ -1,13 +1,14 @@
-package com.piratedropbox.server.model;
+package com.piratedropbox.server.controller;
 
-public class Action extends ActionByTag {
+import com.piratedropbox.server.model.ActionByTag;
+import com.piratedropbox.server.model.Arquivo;
+import com.piratedropbox.server.model.Mensagem;
+import com.piratedropbox.server.model.Pasta;
+
+public class InterpreterMessage extends ActionByTag {
 	
 	private Mensagem msg;
-	
-	public Action(Mensagem msg) {
-		this.msg = msg;
-	}
-	
+
 	@Override
 	public void insertAP(Arquivo arquivo, int idPasta) {
 		// TODO Auto-generated method stub
@@ -49,5 +50,6 @@ public class Action extends ActionByTag {
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 }

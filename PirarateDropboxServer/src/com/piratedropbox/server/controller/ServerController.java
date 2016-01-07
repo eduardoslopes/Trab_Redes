@@ -27,8 +27,8 @@ public class ServerController {
 				Receiver receiver = new Receiver(cliente);
 				receiver.start();
 				
-				Mensageiro mensageiro = new Mensageiro(cliente, APELIDO, receiver);
-				mensageiro.start();
+//				Mensageiro mensageiro = new Mensageiro(cliente, APELIDO, receiver);
+//				mensageiro.start();
 			}
 			
 			

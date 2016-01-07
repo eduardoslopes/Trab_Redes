@@ -8,6 +8,7 @@ public class Mensagem {
 	private Pasta pasta;
 	private int id;
 	private String username;
+	private String ipCliente;
 	
 	public Mensagem(String tag, Arquivo arquivo, int idPasta){
 		this.TAG = tag;
@@ -46,6 +47,14 @@ public class Mensagem {
 		Gson gson = new Gson();
 		Mensagem msg = gson.fromJson(jsonMsg, Mensagem.class);
 		return msg;
+	}
+
+	public String getIpCliente() {
+		return ipCliente;
+	}
+
+	public void setIpCliente(String ipCliente) {
+		this.ipCliente = ipCliente;
 	}
 
 	public Arquivo getArquivo() {
