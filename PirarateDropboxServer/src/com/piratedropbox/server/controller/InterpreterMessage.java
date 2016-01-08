@@ -6,6 +6,7 @@ import com.piratedropbox.server.model.ActionByTag;
 import com.piratedropbox.server.model.Arquivo;
 import com.piratedropbox.server.model.Mensagem;
 import com.piratedropbox.server.model.Pasta;
+import com.piratedropbox.server.model.Usuario;
 import com.piratedropbox.server.model.dao.DBQueries;
 
 public class InterpreterMessage extends ActionByTag {
@@ -50,6 +51,16 @@ public class InterpreterMessage extends ActionByTag {
 	@Override
 	public void shareP(int idPasta, String username) {
 		db.shareP(idPasta, username);
+	}
+
+	@Override
+	public void createU(Usuario usuario) {
+		db.createU(usuario);
+	}
+
+	@Override
+	public void loginU(Usuario usuario) {
+		db.loginU(usuario);
 	}
 
 	

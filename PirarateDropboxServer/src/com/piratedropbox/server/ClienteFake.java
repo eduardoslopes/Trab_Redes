@@ -16,7 +16,7 @@ public class ClienteFake {
 			Socket conexao = new Socket("localhost", 8888);
 			//System.out.println("Olá "+apelido + " seja bem vindo!");
 			
-			Mensageiro sender = new Mensageiro(conexao, new Mensagem(TAG.CREATEP, new Pasta("Dudu", 1) ));	
+			Mensageiro sender = new Mensageiro(conexao, new Mensagem(TAG.CREATEP, new Pasta("Mii", 2) ));	
 			sender.start();
 			
 		} catch (UnknownHostException e) {

@@ -38,6 +38,12 @@ public abstract class ActionByTag {
 		case TAG.SHAREP:
 			shareP(msg.getId(), msg.getUsername());
 			break;
+		case TAG.CREATEU:
+			createU(msg.getUsuario());
+			break;
+		case TAG.LOGINU:
+			createU(msg.getUsuario());
+			break;
 		}
 	}
 	public abstract void insertAP(Arquivo arquivo, int idPasta);
@@ -47,5 +53,7 @@ public abstract class ActionByTag {
 	public abstract Arquivo downA(int idArquivo);
 	public abstract void shareA(int idArquivo, String username);
 	public abstract void shareP(int idPasta, String username);
+	public abstract void createU(Usuario usuario);
+	public abstract void loginU(Usuario usuario);
 
 }

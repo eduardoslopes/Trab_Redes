@@ -9,6 +9,7 @@ public class Mensagem {
 	private int id;
 	private String username;
 	private String ipCliente;
+	private Usuario usuario;
 	
 	public Mensagem(String tag, Arquivo arquivo, int idPasta){
 		this.TAG = tag;
@@ -38,6 +39,11 @@ public class Mensagem {
 		this.username = username;
 	}
 	
+	public Mensagem(String tag, Usuario usuario){
+		this.TAG = tag;
+		this.usuario = usuario;
+	}
+
 	public static String mensagemToJson(Mensagem msg){
 		Gson gson = new Gson();
 		return gson.toJson(msg);
@@ -48,6 +54,10 @@ public class Mensagem {
 		Gson gson = new Gson();
 		Mensagem msg = gson.fromJson(jsonMsg, Mensagem.class);
 		return msg;
+	}
+	
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
 	public String getIpCliente() {

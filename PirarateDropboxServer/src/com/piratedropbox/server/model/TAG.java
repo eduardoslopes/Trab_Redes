@@ -18,4 +18,6 @@ public class TAG {
 	public static final String DOWNA = "DOWNA";
 	public static final String SHAREA = "SHAREA";
 	public static final String SHAREP = "SHAREP";
+	public static final String CREATEU = "CREATEU";
+	public static final String LOGINU = "LOGINU";
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import com.piratedropbox.server.controller.ENDERECODB;
 import com.piratedropbox.server.model.Arquivo;
 import com.piratedropbox.server.model.Pasta;
+import com.piratedropbox.server.model.Usuario;
 
 public class DBQueries {
 	
@@ -235,6 +236,84 @@ public class DBQueries {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}				
+	}
+	
+	public void createU(Usuario usuario) {
+		PreparedStatement pstmt;
+		try {
+			pstmt = conn1.prepareStatement("insert into folder(name) "
+					+ "values (?)", Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1, "Home_"+usuario.getNome());
+			pstmt.executeUpdate();
+			ResultSet newKey = pstmt.getGeneratedKeys();
+			newKey.next();
+			int newId = newKey.getInt(1);
+			pstmt = conn1.prepareStatement("insert into _user(username, name, last_name, senha, id_root_folder) "
+					+ "values(?, ?, ?, ?, ?);");
+			pstmt.setString(1, usuario.getUsername());
+			pstmt.setString(2, usuario.getNome());
+			pstmt.setString(3, usuario.getSobrenome());
+			pstmt.setString(4, usuario.getSenha());
+			pstmt.setInt(5, newId);
+			pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			pstmt = conn2.prepareStatement("insert into folder(name) "
+					+ "values (?)", Statement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1, "Home_"+usuario.getNome());
+			pstmt.executeUpdate();
+			ResultSet newKey = pstmt.getGeneratedKeys();
+			newKey.next();
+			int newId = newKey.getInt(1);
+			pstmt = conn2.prepareStatement("insert into _user(username, name, last_name, senha, id_root_folder) "
+					+ "values(?, ?, ?, ?, ?);");
+			pstmt.setString(1, usuario.getUsername());
+			pstmt.setString(2, usuario.getNome());
+			pstmt.setString(3, usuario.getSobrenome());
+			pstmt.setString(4, usuario.getSenha());
+			pstmt.setInt(5, newId);
+			pstmt.executeUpdate();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public boolean loginU(Usuario usuario) {
+		
+		Statement stmt = null;
+		String username = null ;
+		String password = null ;
+		try {
+			try{
+			stmt = conn1.createStatement();
+			}catch(SQLException e2){
+				stmt = conn2.createStatement();
+				ResultSet rs = stmt.executeQuery("select username, password from _user where USERNAME = "+usuario.getUsername());
+				rs.next();
+				username = rs.getString("username");
+				password = rs.getString("password");
+				if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
+					return true;
+				}
+			}
+			ResultSet rs = stmt.executeQuery("select username, password from _user where USERNAME = "+usuario.getUsername());
+			rs.next();
+			username = rs.getString("username");
+			password = rs.getString("password");
+			if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
+				return true;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

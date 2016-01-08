@@ -17,4 +17,24 @@ public class Usuario {
 		this.idPastaRaiz = idPastaRaiz;
 	}
 	
+	public String getUsername() {
+		return username;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getSobrenome() {
+		return sobrenome;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public int getIdPastaRaiz() {
+		return idPastaRaiz;
+	}
+	
 }
