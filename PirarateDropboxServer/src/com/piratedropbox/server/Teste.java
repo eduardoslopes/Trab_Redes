@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.piratedropbox.server.controller.ServerController;
 import com.piratedropbox.server.model.dao.CreateDB;
 
 public class Teste {
@@ -22,18 +23,18 @@ public class Teste {
 		
 		//System.out.println( CreateDB.createDataBase("localhost/", "postgres", "senha"));
 		
-		Class.forName("org.postgresql.Driver");
-	    Connection conn = DriverManager.getConnection("jdbc:postgresql:bd_piratedropbox_teste", "postgres", "senha");
+//		Class.forName("org.postgresql.Driver");
+//	    Connection conn = DriverManager.getConnection("jdbc:postgresql:bd_piratedropbox_teste", "postgres", "senha");
 	    
-	    File file = new File("files/isac.png");
-	    FileInputStream fis = new FileInputStream(file);
-	    PreparedStatement pstmt = conn.prepareStatement("insert into arquivo(nome, arquivo_bruto) values (?,?)", Statement.RETURN_GENERATED_KEYS);
-	    pstmt.setString(1, "android2.png");
-	    pstmt.setBinaryStream(2, fis, (int) file.length());
-	    int check = pstmt.executeUpdate();
-	    ResultSet rs = pstmt.getGeneratedKeys();
-	    rs.next();
-	    System.out.println("pegou "+ rs.getString(2));
+//	    File file = new File("files/isac.png");
+//	    FileInputStream fis = new FileInputStream(file);
+//	    PreparedStatement pstmt = conn.prepareStatement("insert into arquivo(nome, arquivo_bruto) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+//	    pstmt.setString(1, "android2.png");
+//	    pstmt.setBinaryStream(2, fis, (int) file.length());
+//	    int check = pstmt.executeUpdate();
+//	    ResultSet rs = pstmt.getGeneratedKeys();
+//	    rs.next();
+//	    System.out.println("pegou "+ rs.getString(2));
 	    
 //	    Statement stmt = conn.createStatement();
 //	    ResultSet rs = stmt.executeQuery("select * from arquivo");
@@ -47,8 +48,10 @@ public class Teste {
 //		    bos.close();
 //	    }
 	    
-//	    Socket s = new Socket("127.0.0.1", 8888);
-	    
+
+		ServerController sc = new ServerController(8888);
+		sc.executa();
+		
 	}
 
 }

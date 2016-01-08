@@ -15,7 +15,7 @@ import java.util.List;
 
 public abstract class ActionByTag {
 	
-	void messageInterpreter(Mensagem msg){
+	public void messageInterpreter(Mensagem msg){
 		switch(msg.getTAG()){
 		case TAG.INSERTAP:
 			insertAP(msg.getArquivo(), msg.getId());

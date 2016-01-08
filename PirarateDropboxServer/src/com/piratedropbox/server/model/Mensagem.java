@@ -44,6 +44,7 @@ public class Mensagem {
 	}
 	
 	public static Mensagem jsonToMensagem(String jsonMsg){
+		System.out.println("msgem: " + jsonMsg);
 		Gson gson = new Gson();
 		Mensagem msg = gson.fromJson(jsonMsg, Mensagem.class);
 		return msg;

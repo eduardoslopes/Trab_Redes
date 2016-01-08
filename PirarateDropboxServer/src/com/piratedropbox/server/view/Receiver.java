@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+import com.piratedropbox.server.controller.InterpreterMessage;
 import com.piratedropbox.server.model.Mensagem;
 
 public class Receiver extends Thread implements Runnable {
@@ -28,9 +29,13 @@ public class Receiver extends Thread implements Runnable {
 			String msg = null;
 			while(scanner.hasNextLine() && continua){
 				msg = scanner.nextLine();
-				continua = false;
+				System.out.println("sdfsdf - "+msg);
+//				continua = false;
 			}
 			Mensagem m = Mensagem.jsonToMensagem(msg);
+			InterpreterMessage im = new InterpreterMessage();
+			
+			im.messageInterpreter(m);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -11,35 +11,28 @@ import com.piratedropbox.server.model.Mensagem;
 
 public class Mensageiro extends Thread implements Runnable{
 	
-	Socket conexao; 
-	String apelido; 
-	Receiver receiver;
-	Scanner teclado;
+	private Socket conexao; 
+	private Scanner teclado;
 	private Mensagem msg;
 	
-	public Mensageiro(Socket conexao, String apelido, Mensagem msg,Receiver receiver){
+	public Mensageiro(Socket conexao, Mensagem msg){
 		this.conexao = conexao;
-		this.apelido = apelido;
-		this.receiver = receiver;
 		this.msg = msg;
 	}
 	
 	@Override
 	public void run() {
 		enviarMensagem();
-		super.run();
 	}
 	
 	public void enviarMensagem(){
 		try {
-			teclado = new Scanner(System.in);
+			System.out.println("Antes de enviar1: "+Mensagem.mensagemToJson(msg));
 			PrintStream envia;
 			envia = new PrintStream(conexao.getOutputStream());
-			while(teclado.hasNextLine()){
-				envia.println(Mensagem.mensagemToJson(msg));
-				}
-				receiver.fecharSocket();
-				conexao.close();
+			envia.println(Mensagem.mensagemToJson(msg));
+			System.out.println("Antes de enviar: "+Mensagem.mensagemToJson(msg));
+			conexao.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

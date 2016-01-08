@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.piratedropbox.server.controller.ENDERECODB;
 import com.piratedropbox.server.model.Arquivo;
 import com.piratedropbox.server.model.Pasta;
 
@@ -21,7 +22,8 @@ public class DBQueries {
 	private Connection conn2;
 	private String user;
 	private String password;
-	private static final String dbName = "db_piratedropbox";
+	private static final String dbName1 = "db1_piratedropbox";
+	private static final String dbName2 = "db2_piratedropbox";
 	private Statement stmt1;
 	private Statement stmt2;
 	
@@ -31,18 +33,31 @@ public class DBQueries {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		DB1_URL = "jdbc:postgresql://"+localDB1+dbName;
-		DB2_URL = "jdbc:postgresql://"+localDB2+dbName;
+		DB1_URL = "jdbc:postgresql://"+localDB1+dbName1;
+		DB2_URL = "jdbc:postgresql://"+localDB2+dbName2;
 		
 		this.user = user;
 		this.password = password;
-		
+				
 		try {
 			conn1 = DriverManager.getConnection(DB1_URL, user, password);
 			stmt1 = conn1.createStatement();
+		} catch (SQLException e) {
+			try {
+				CreateDB.createDataBase(ENDERECODB.localDB1, dbName1, user, password);
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}try {
 			conn2 = DriverManager.getConnection(DB2_URL, user, password);
 			stmt2 = conn2.createStatement();
 		} catch (SQLException e) {
+			try {
+				CreateDB.createDataBase(ENDERECODB.localDB2, dbName2, user, password);
+			} catch (ClassNotFoundException e1) {
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}	
 	}
@@ -95,13 +110,13 @@ public class DBQueries {
 			pstmt.setInt(2, newId);
 			check = pstmt.executeUpdate();
 			
-			pstmt = conn1.prepareStatement("insert into folder(name) values (?)", Statement.RETURN_GENERATED_KEYS);
+			pstmt = conn2.prepareStatement("insert into folder(name) values (?)", Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, pasta.getNome());
 			check = pstmt.executeUpdate();
 			newKey = pstmt.getGeneratedKeys();
 			newKey.next();
 			newId = newKey.getInt(1);
-			pstmt = conn1.prepareStatement("insert into folder_folder(ID_FOLDER_FATHER, ID_FOLDER_DAUGHTER) values (?,?)");
+			pstmt = conn2.prepareStatement("insert into folder_folder(ID_FOLDER_FATHER, ID_FOLDER_DAUGHTER) values (?,?)");
 			pstmt.setInt(1, pasta.getIdPai());
 			pstmt.setInt(2, newId);
 			check = pstmt.executeUpdate();
