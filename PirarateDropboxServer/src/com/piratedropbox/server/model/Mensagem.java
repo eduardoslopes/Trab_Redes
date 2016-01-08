@@ -1,5 +1,7 @@
 package com.piratedropbox.server.model;
 
+import java.util.List;
+
 import com.google.gson.Gson;
 
 public class Mensagem {
@@ -10,11 +12,17 @@ public class Mensagem {
 	private String username;
 	private String ipCliente;
 	private Usuario usuario;
-	
+	private List<Object> emPasta;
+
 	public Mensagem(String tag, Arquivo arquivo, int idPasta){
 		this.TAG = tag;
 		this.arquivo = arquivo;
 		this.id = idPasta;
+	}
+	
+	public Mensagem(String tag, Arquivo arquivo){
+		this.TAG = tag;
+		this.arquivo = arquivo;
 	}
 	
 	public Mensagem(String tag, Pasta pasta, int idPasta){
@@ -43,6 +51,17 @@ public class Mensagem {
 		this.TAG = tag;
 		this.usuario = usuario;
 	}
+	
+	public Mensagem(String tag){
+		this.TAG = tag;
+	}
+	
+	public Mensagem(String tag, List<Object> emPasta){
+		this.TAG = tag;
+		this.emPasta = emPasta;
+	}
+	
+	
 
 	public static String mensagemToJson(Mensagem msg){
 		Gson gson = new Gson();
@@ -54,6 +73,10 @@ public class Mensagem {
 		Gson gson = new Gson();
 		Mensagem msg = gson.fromJson(jsonMsg, Mensagem.class);
 		return msg;
+	}
+	
+	public List<Object> getEmPasta() {
+		return emPasta;
 	}
 	
 	public Usuario getUsuario() {

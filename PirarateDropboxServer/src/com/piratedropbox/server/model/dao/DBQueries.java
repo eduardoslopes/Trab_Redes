@@ -63,7 +63,7 @@ public class DBQueries {
 		}	
 	}
 	
-	public void insertAP(Arquivo arquivo, int idPasta) {
+	public boolean insertAP(Arquivo arquivo, int idPasta) {
 	    try {
 			PreparedStatement pstmt = conn1.prepareStatement("insert into file(name, BRUTE_FILE) values (?,?)", Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, arquivo.getNome());
@@ -90,7 +90,9 @@ public class DBQueries {
 			check = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+	    return true;
 	}
 
 	public void insertPP(Pasta pasta, int idPasta) {
@@ -98,7 +100,7 @@ public class DBQueries {
 		
 	}
 
-	public void createP(Pasta pasta) {
+	public boolean createP(Pasta pasta) {
 		try {
 			PreparedStatement pstmt = conn1.prepareStatement("insert into folder(name) values (?)", Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, pasta.getNome());
@@ -123,7 +125,9 @@ public class DBQueries {
 			check = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 
 	public List<Object> seeP(int idPasta) {
@@ -188,7 +192,7 @@ public class DBQueries {
 		return arquivo;
 	}
 
-	public void shareA(int idArquivo, String username) {
+	public boolean shareA(int idArquivo, String username) {
 		try {
 			Statement stmt = conn1.createStatement();
 			ResultSet rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = "+username);
@@ -209,10 +213,12 @@ public class DBQueries {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}		
+		return true;
 	}
 
-	public void shareP(int idPasta, String username) {
+	public boolean shareP(int idPasta, String username) {
 		try {
 			Statement stmt = conn1.createStatement();
 			ResultSet rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = "+username);
@@ -235,10 +241,12 @@ public class DBQueries {
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}				
+		return true;
 	}
 	
-	public void createU(Usuario usuario) {
+	public boolean createU(Usuario usuario) {
 		PreparedStatement pstmt;
 		try {
 			pstmt = conn1.prepareStatement("insert into folder(name) "
@@ -259,6 +267,7 @@ public class DBQueries {
 		
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
 		
 		try {
@@ -280,7 +289,9 @@ public class DBQueries {
 		
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+		return true;
 		
 	}
 

@@ -20,4 +20,6 @@ public class TAG {
 	public static final String SHAREP = "SHAREP";
 	public static final String CREATEU = "CREATEU";
 	public static final String LOGINU = "LOGINU";
+	public static final String SUCCESS = "SUCCESS";
+	public static final String FAIL = "FAIL";
 }
