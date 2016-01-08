@@ -1,5 +1,7 @@
 package com.piratedropbox.server.model;
 
+import java.util.List;
+
 //TAG      |        UC
 //---------|---------------------------------------|
 //INSERTAP | Inserir um arquivo em uma pasta       |
@@ -27,8 +29,8 @@ public abstract class ActionByTag {
 		case TAG.DOWNA:
 			downA(msg.getId());
 			break;
-		case TAG.SEEAP:
-			seeAP(msg.getId());
+		case TAG.SEEP :
+			seeP(msg.getId());
 			break;
 		case TAG.SHAREA:
 			shareA(msg.getId(), msg.getUsername());
@@ -41,8 +43,8 @@ public abstract class ActionByTag {
 	public abstract void insertAP(Arquivo arquivo, int idPasta);
 	public abstract void insertPP(Pasta pasta, int idPasta);
 	public abstract void createP(Pasta pasta);
-	public abstract void seeAP(int idPasta);
-	public abstract void downA(int idArquivo);
+	public abstract List<Object> seeP(int idPasta);
+	public abstract Arquivo downA(int idArquivo);
 	public abstract void shareA(int idArquivo, String username);
 	public abstract void shareP(int idPasta, String username);
 

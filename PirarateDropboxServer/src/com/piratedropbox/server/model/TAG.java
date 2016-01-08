@@ -14,7 +14,7 @@ public class TAG {
 	public static final String INSERTAP = "INSERTAP";
 	public static final String INSERTPP = "INSERTPP";
 	public static final String CREATEP = "CREATEP";
-	public static final String SEEAP = "SEEAP";
+	public static final String SEEP = "SEEP";
 	public static final String DOWNA = "DOWNA";
 	public static final String SHAREA = "SHAREA";
 	public static final String SHAREP = "SHAREP";

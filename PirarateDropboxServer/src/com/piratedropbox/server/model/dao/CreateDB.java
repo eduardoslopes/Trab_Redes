@@ -7,18 +7,17 @@ import java.sql.Statement;
 
 public class CreateDB {
 	
-	public static boolean createDataBase(String local, String user, String password) throws ClassNotFoundException{
+	public static boolean createDataBase(String local, String dbName, String user, String password) throws ClassNotFoundException{
 		Class.forName("org.postgresql.Driver");
 		String DB_URL = "jdbc:postgresql://"+local;
-		String DB_NAME="bd_piratedropbox";
 		
 		try {
 			Connection conn = DriverManager.getConnection(DB_URL, user, password);
 			Statement stmt = conn.createStatement();
 			//stmt.executeUpdate("DROP DATABASE "+DB_NAME);
-			String createDB = "CREATE DATABASE "+ DB_NAME;
+			String createDB = "CREATE DATABASE "+ dbName;
 			stmt.executeUpdate(createDB);
-			conn = DriverManager.getConnection(DB_URL+DB_NAME, user, password);
+			conn = DriverManager.getConnection(DB_URL+dbName, user, password);
 			stmt = conn.createStatement();
 			String createTables = 					
 					"CREATE TABLE FOLDER( "+

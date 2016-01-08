@@ -28,7 +28,7 @@ public class InterpreterMessage extends ActionByTag {
 	}
 
 	@Override
-	public void seeAP(int idPasta) {
+	public void seeP(int idPasta) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -20,31 +20,33 @@ public class Teste {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
 		
-		System.out.println( CreateDB.createDataBase("localhost/", "postgres", "senha"));
+		//System.out.println( CreateDB.createDataBase("localhost/", "postgres", "senha"));
 		
-//		Class.forName("org.postgresql.Driver");
-//	    Connection conn = DriverManager.getConnection("jdbc:postgresql:bd_piratedropbox_teste", "postgres", "senha");
+		Class.forName("org.postgresql.Driver");
+	    Connection conn = DriverManager.getConnection("jdbc:postgresql:bd_piratedropbox_teste", "postgres", "senha");
 	    
-//	    File file = new File("files/isac.png");
-//	    FileInputStream fis = new FileInputStream(file);
-//	    PreparedStatement pstmt = conn.prepareStatement("insert into arquivo(id, nome, arquivo_bruto) values (?,?,?)");
-//	    pstmt.setInt(1, 1);
-//	    pstmt.setString(2, "Teste saporra!");
-//	    pstmt.setBinaryStream(3, fis, (int) file.length());
-//	    int check = pstmt.executeUpdate();
-//	    System.out.println(check);
+	    File file = new File("files/isac.png");
+	    FileInputStream fis = new FileInputStream(file);
+	    PreparedStatement pstmt = conn.prepareStatement("insert into arquivo(nome, arquivo_bruto) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+	    pstmt.setString(1, "android2.png");
+	    pstmt.setBinaryStream(2, fis, (int) file.length());
+	    int check = pstmt.executeUpdate();
+	    ResultSet rs = pstmt.getGeneratedKeys();
+	    rs.next();
+	    System.out.println("pegou "+ rs.getString(2));
 	    
 //	    Statement stmt = conn.createStatement();
 //	    ResultSet rs = stmt.executeQuery("select * from arquivo");
 //	    while(rs.next()){
 //		    byte[] b = rs.getBytes("arquivo_bruto");
+//		    String nome = rs.getString("nome");
 //		    System.out.println(b[0]);
-//		    File f = new File("files/isac2");
+//		    File f = new File(nome);
 //		    BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(f));
 //		    bos.write(b);
 //		    bos.close();
 //	    }
-//	    
+	    
 //	    Socket s = new Socket("127.0.0.1", 8888);
 	    
 	}

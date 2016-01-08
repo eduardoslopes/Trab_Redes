@@ -10,6 +10,22 @@ public class Arquivo {
 		this.arquivoBruto = arquivoBruto;
 	}
 	
+	public Arquivo(int id, String nome){
+		this.nome = nome;
+		this.id = id;
+	}
 	
-	
+	public int getId() {
+		return id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public byte[] getArquivoBruto() {
+		return arquivoBruto;
+	}
+
+		
 }
