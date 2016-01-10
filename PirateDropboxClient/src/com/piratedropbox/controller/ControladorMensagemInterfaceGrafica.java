@@ -11,7 +11,7 @@ public class ControladorMensagemInterfaceGrafica {
 	
 	public void carregarArquivos(){
 		ConnectionClient conexao = new ConnectionClient();
-		Mensagem mensagem = new Mensagem("SEEP");
+		Mensagem mensagem = new Mensagem(TAG.SEEP);
 		conexao.enviarMensagemServidorDns(mensagem);
 	}
 	
