@@ -29,7 +29,7 @@ public class ConnectionClient implements Runnable{
 	
 	public void openConnection(String host,int porta) throws IOException{
 		try {
-			socket = new Socket("piratedropbox.com",12345);
+			socket = new Socket(host,porta);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintStream(socket.getOutputStream());
 			clienteInicializado = true;
