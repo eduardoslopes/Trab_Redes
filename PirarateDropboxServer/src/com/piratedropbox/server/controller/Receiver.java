@@ -1,11 +1,10 @@
-package com.piratedropbox.server.view;
+package com.piratedropbox.server.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-import com.piratedropbox.server.controller.InterpreterMessage;
 import com.piratedropbox.server.model.Mensagem;
 
 public class Receiver extends Thread implements Runnable {
@@ -25,17 +24,23 @@ public class Receiver extends Thread implements Runnable {
 	private void recebe(){
 		try {
 			scanner = new Scanner(this.sender.getInputStream());
-			boolean continua = true;
 			String msg = null;
-			while(scanner.hasNextLine() && continua){
-				msg = scanner.nextLine();
-				System.out.println("sdfsdf - "+msg);
-//				continua = false;
-			}
-			Mensagem m = Mensagem.jsonToMensagem(msg);
-			InterpreterMessage im = new InterpreterMessage();
 			
-			im.messageInterpreter(m);
+			msg = scanner.nextLine();
+			System.out.println("receiver: - "+msg);
+				
+			if(msg.equals("TRAFEGO")){
+				System.out.println("1");
+				int trafego = VerificadorTrafego.verificaTrafego();
+				System.out.println("trafego: " + trafego);
+				EnviaTrafego et = new EnviaTrafego(sender, trafego);
+				et.start();
+			}else{
+				Mensagem m = Mensagem.jsonToMensagem(msg);
+				InterpreterMessage im = new InterpreterMessage();
+				im.messageInterpreter(m);
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

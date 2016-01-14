@@ -1,4 +1,4 @@
-package com.piratedropbox.server.view;
+package com.piratedropbox.server.controller;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -27,6 +27,7 @@ public class Mensageiro extends Thread implements Runnable{
 	
 	public void enviarMensagem(){
 		try {
+			System.out.println("Aqui <- ");
 			System.out.println("Antes de enviar1: "+Mensagem.mensagemToJson(msg));
 			PrintStream envia;
 			envia = new PrintStream(conexao.getOutputStream());
