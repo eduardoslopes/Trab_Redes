@@ -3,13 +3,13 @@ package com.piratedropbox.server.controller;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import com.piratedropbox.server.view.Mensageiro;
-import com.piratedropbox.server.view.Receiver;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ServerController {
 	private int porta;
+	public static List<Thread> connections = new ArrayList<>();
 	
 	public ServerController(int porta){
 		this.porta = porta;
@@ -25,6 +25,7 @@ public class ServerController {
 				
 				Receiver receiver = new Receiver(cliente);
 				receiver.start();
+				connections.add(receiver);
 			}
 			
 			

@@ -49,8 +49,11 @@ public class Teste {
 //	    }
 	    
 
-		ServerController sc = new ServerController(8888);
-		sc.executa();
+		ServerController sc1 = new ServerController(12345);
+		sc1.executa();
+		
+//		ServerController sc2 = new ServerController(23456);
+//		sc2.executa();
 		
 	}
 

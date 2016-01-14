@@ -1,6 +1,5 @@
 package com.piratedropbox.server.model.dao;
 
-import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -152,7 +151,7 @@ public class DBQueries {
 				intoFolder.add(new Arquivo(id, nome));
 		    }
 		    stmt = conn1.createStatement();
-		    rs = stmt.executeQuery("select fd.id, fd.name folder fd, folder_folder ff "
+		    rs = stmt.executeQuery("select fd.id, fd.name from folder fd, folder_folder ff "
 		    		+ "where "+idPasta+" = ff.ID_FOLDER_FATHER and ff.ID_FOLDER_FATHER = fd.id "
 		    				+ "and fd.id = ff.ID_FOLDER_DAUGHTER;");
 		    while(rs.next()){
@@ -179,11 +178,18 @@ public class DBQueries {
 			}
 			e1.printStackTrace();
 		}
+		System.out.println("Chegou");
 		try {
-		    ResultSet rs = stmt.executeQuery("select name, BRUTE_FILE file where id = "+idArquivo);
+			System.out.println("Chegou aqui");
+		    ResultSet rs = stmt.executeQuery("select name, BRUTE_FILE from file where id = "+ idArquivo);
+		    System.out.println("Chegou aqui tambem");
 		    while(rs.next()){
+		    	System.out.println(" :P ");
 				String nome = rs.getString("name");
+				System.out.println(nome);
 				byte[] arquivoBruto = rs.getBytes("BRUTE_FILE");
+				System.out.println(arquivoBruto);
+
 				arquivo = new Arquivo(nome, arquivoBruto);
 		    }
 		}catch(SQLException e){
@@ -195,7 +201,7 @@ public class DBQueries {
 	public boolean shareA(int idArquivo, String username) {
 		try {
 			Statement stmt = conn1.createStatement();
-			ResultSet rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = "+username);
+			ResultSet rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = '"+username+"'");
 			rs.next();
 			int idRaiz = rs.getInt("ID_ROOT_FOLDER");
 			PreparedStatement pstmt = conn1.prepareStatement("insert into folder_file(ID_FOLDER_FATHER, ID_FILE) values (?,?)");
@@ -204,7 +210,7 @@ public class DBQueries {
 			pstmt.executeUpdate();
 			
 			stmt = conn2.createStatement();
-			rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = "+username);
+			rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = '"+username+"'");
 			rs.next();
 			idRaiz = rs.getInt("ID_ROOT_FOLDER");
 			pstmt = conn2.prepareStatement("insert into folder_file(ID_FOLDER_FATHER, ID_FILE) values (?,?)");
@@ -221,7 +227,7 @@ public class DBQueries {
 	public boolean shareP(int idPasta, String username) {
 		try {
 			Statement stmt = conn1.createStatement();
-			ResultSet rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = "+username);
+			ResultSet rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = '"+username+"'");
 			rs.next();
 			int idRaiz = rs.getInt("ID_ROOT_FOLDER");
 			PreparedStatement pstmt = conn1.prepareStatement("insert into folder_folder(ID_FOLDER_FATHER, ID_FOLDER_DAUGHTER) "
@@ -230,11 +236,11 @@ public class DBQueries {
 			pstmt.setInt(2, idPasta);
 			pstmt.executeUpdate();
 			
-			stmt = conn1.createStatement();
-			rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = "+username);
+			stmt = conn2.createStatement();
+			rs = stmt.executeQuery("select ID_ROOT_FOLDER from _user where USERNAME = '"+username+"'");
 			rs.next();
 			idRaiz = rs.getInt("ID_ROOT_FOLDER");
-			pstmt = conn1.prepareStatement("insert into folder_folder(ID_FOLDER_FATHER, ID_FOLDER_DAUGHTER) "
+			pstmt = conn2.prepareStatement("insert into folder_folder(ID_FOLDER_FATHER, ID_FOLDER_DAUGHTER) "
 					+ "values (?,?)");
 			pstmt.setInt(1, idRaiz);
 			pstmt.setInt(2, idPasta);
@@ -295,36 +301,41 @@ public class DBQueries {
 		
 	}
 
-	public boolean loginU(Usuario usuario) {
-		
+	public Pasta loginU(Usuario usuario1) {
+		Usuario usuario = new Usuario("dudu", "mileninha", "Eduardo", "Lopes");
 		Statement stmt = null;
-		String username = null ;
-		String password = null ;
+		String username = null;
+		String password = null;
+		Pasta pastaRaiz = null;
 		try {
 			try{
 			stmt = conn1.createStatement();
 			}catch(SQLException e2){
 				stmt = conn2.createStatement();
-				ResultSet rs = stmt.executeQuery("select username, password from _user where USERNAME = "+usuario.getUsername());
+				ResultSet rs = stmt.executeQuery("select u.username, u.senha, f.id as idPasta, f.name as nomePasta from _user u, folder f "
+						+ "where u.USERNAME = '"+usuario.getUsername() + "' and u.ID_ROOT_FOLDER = f.id" );
 				rs.next();
 				username = rs.getString("username");
-				password = rs.getString("password");
+				password = rs.getString("senha");
 				if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
-					return true;
+					pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
+					return pastaRaiz;
 				}
 			}
-			ResultSet rs = stmt.executeQuery("select username, password from _user where USERNAME = "+usuario.getUsername());
+			ResultSet rs = stmt.executeQuery("select u.username, u.senha, f.id as idPasta, f.name as nomePasta from _user u, folder f "
+					+ "where u.USERNAME = '"+usuario.getUsername() + "' and u.ID_ROOT_FOLDER = f.id" );
 			rs.next();
 			username = rs.getString("username");
-			password = rs.getString("password");
+			password = rs.getString("senha");
 			if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
-				return true;
+				pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
+				return pastaRaiz;
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return pastaRaiz;
 	}
 	
 }
