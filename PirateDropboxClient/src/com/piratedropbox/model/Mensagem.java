@@ -1,5 +1,6 @@
 package com.piratedropbox.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -12,7 +13,7 @@ public class Mensagem {
 	private String username;
 	private String ipCliente;
 	private Usuario usuario;
-	private List<Object> emPasta;
+	private ArrayList<Object> emPasta;
 
 	public Mensagem(String tag, Arquivo arquivo, int idPasta){
 		this.TAG = tag;
@@ -56,7 +57,7 @@ public class Mensagem {
 		this.TAG = tag;
 	}
 	
-	public Mensagem(String tag, List<Object> emPasta){
+	public Mensagem(String tag, ArrayList<Object> emPasta){
 		this.TAG = tag;
 		this.emPasta = emPasta;
 	}

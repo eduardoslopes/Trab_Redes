@@ -27,5 +27,12 @@ public class Arquivo {
 		return arquivoBruto;
 	}
 
+	@Override
+	public String toString() {
+		return nome;
+	}
+	
+	
+
 		
 }

@@ -7,9 +7,12 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class ConnectionClient implements Runnable{
-	private String host;  //"piratedropbox.com";
-	private int porta;  //"12345";
+import com.piratedropbox.controller.InterpreterMessage;
+import com.piratedropbox.controller.Receiver;
+
+public class ConnectionClient{
+	private String host = "piratedropbox.com";
+	private int porta = 12345;
 	private String enderecoCliente;
 	private Socket socket;
 	private boolean clienteInicializado;
@@ -29,10 +32,13 @@ public class ConnectionClient implements Runnable{
 	
 	public void openConnection(String host,int porta) throws IOException{
 		try {
-			socket = new Socket(host,porta);
+			System.out.println("Aidento");
+			socket = new Socket("piratedropbox.com",12345);
+			System.out.println(":P "+socket.toString());
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintStream(socket.getOutputStream());
 			clienteInicializado = true;
+			System.out.println(socket.toString());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -41,81 +47,10 @@ public class ConnectionClient implements Runnable{
 		}
 	}
 	
-	private void close(){
-		if(in != null){
-			try{
-				in.close();
-			}
-			catch(Exception e){
-				System.out.println(e);
-			}
-		}
-		
-		if(out != null){
-			try{
-				out.close();
-				System.setOut(out);
-			}
-			catch(Exception e){
-				System.out.println(e);
-			}
-		}
-		
-		if(socket != null){
-			try{
-				socket.close();
-			}
-			catch(Exception e){
-				System.out.println(e);
-			}
-		}
-		
-		in = null;
-		out = null;
-		socket = null;
-		clienteInicializado = false;
-		clienteExecutando = false;
-		thread.interrupt();
-	}
 	
-	private void start(){ // Iniciar Thread auxiliar, se poss�vel. O objeto Cliente precisa estar inicializado e n�o pode estar executando
-	  	if(!clienteInicializado || clienteExecutando){
-	  		return;
-	  	}
-	  	
-	  	clienteExecutando = true;
-	  	thread = new Thread(this);
-	  	thread.start();
-	}
-	
-	public void stop() throws Exception{
-		clienteExecutando = false;
-		if(thread != null){
-			thread.join();
-		}
-	}
-	
-	
-	
-	@Override
-	public void run() {
-		while(clienteExecutando){ // Esperando resultado do servidor
-			try{
-				
-				String mensagemServidor = in.readLine();
-				
-			}
-			catch(Exception e){
-				System.out.println(e);
-			}
-		}
-		close();
-		
-	}
-	
-	private void enviarMensagemServidorDns(Mensagem mensagem){ 
+	public void enviarMensagemServidorDns(Mensagem mensagem){ 
 		Mensageiro mensageiro = new Mensageiro(this.socket,mensagem);
-		mensageiro.enviarMensagem();
+		mensageiro.start();
 	}
 	
 	
@@ -123,5 +58,6 @@ public class ConnectionClient implements Runnable{
 		return clienteExecutando;
 	}
 	
+
 	
 }

@@ -1,3 +1,4 @@
+
 package com.piratedropbox.view;
 
 import java.awt.BorderLayout;
@@ -6,15 +7,30 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.piratedropbox.controller.ControladorMensagemInterfaceGrafica;
+import com.piratedropbox.controller.ControladorRecebecimento;
+import com.piratedropbox.controller.Criptografia;
+import com.piratedropbox.controller.InterpreterMessage;
+import com.piratedropbox.model.Arquivo;
+import com.piratedropbox.model.Usuario;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtLogin;
+	public boolean podeLogar;
+	private JPasswordField txtSenha;
 
 	/**
 	 * Launch the application.
@@ -52,17 +68,55 @@ public class Login extends JFrame {
 		contentPane.add(lblSenha);
 		
 		JButton btnAcessar = new JButton("Acessar");
+		btnAcessar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String userName = txtLogin.getText();
+				String senha = null;
+				try {
+					senha = Criptografia.convertPasswordToMD5(txtSenha.toString()); // Criptografar senha
+				} catch (NoSuchAlgorithmException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				Usuario usuario = new Usuario("dudu","mileninha","Julio","Serafim");
+				
+				
+				
+				
+				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
+				txtLogin.setText("");
+				txtSenha.setText("");
+				try {
+					controlador.loginUsuario(usuario);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				System.out.println(podeLogar);
+				
+				if(podeLogar == true){
+					TelaInicialClient telaInicial = new TelaInicialClient();
+					telaInicial.pack();
+					telaInicial.setVisible(true);
+					
+				}
+			}
+		});
 		btnAcessar.setBounds(133, 111, 117, 25);
 		contentPane.add(btnAcessar);
 		
-		textField = new JTextField();
-		textField.setBounds(136, 55, 114, 19);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtLogin = new JTextField();
+		txtLogin.setBounds(133, 55, 117, 19);
+		contentPane.add(txtLogin);
+		txtLogin.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(136, 82, 114, 19);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		txtSenha = new JPasswordField();
+		txtSenha.setBounds(133, 84, 117, 19);
+		contentPane.add(txtSenha);
+	}
+
+	public void setPodeLogar(boolean podeLogar) {
+		this.podeLogar = podeLogar;
 	}
 }
