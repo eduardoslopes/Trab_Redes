@@ -14,11 +14,11 @@ public class ControladorMensagemInterfaceGrafica {
 	
 	public ControladorMensagemInterfaceGrafica(){} 
 	
-	public void carregarArquivos() throws IOException{ // Tem que ver como vai receber o List de objetos do Servidor
+	public void carregarArquivos(int idPasta) throws IOException{ // Tem que ver como vai receber o List de objetos do Servidor
 		ConnectionClient conexao = new ConnectionClient();
 		conexao.openConnection("piratedropbox.com", 12345);
 		
-		Mensagem mensagem = new Mensagem(TAG.SEEP,4);
+		Mensagem mensagem = new Mensagem(TAG.SEEP,idPasta);
 		RetornaIp retornaIp = new RetornaIp();
 		String ipCliente = retornaIp.retornaIp();
 		mensagem.setIpCliente(ipCliente);
@@ -105,6 +105,18 @@ public class ControladorMensagemInterfaceGrafica {
 		ConnectionClient conexao = new ConnectionClient();
 		conexao.openConnection("piratedropbox.com", 12345);
 		Mensagem mensagem = new Mensagem(TAG.CREATEU,usuario);
+		
+		RetornaIp retornaIp = new RetornaIp();
+		String ipCliente = retornaIp.retornaIp();
+		mensagem.setIpCliente(ipCliente);
+		
+		conexao.enviarMensagemServidorDns(mensagem);
+	}
+	
+	public void criarPasta(Pasta pasta) throws IOException{
+		ConnectionClient conexao = new ConnectionClient();
+		conexao.openConnection("piratedropbox.com", 12345);
+		Mensagem mensagem = new Mensagem(TAG.CREATEP,pasta);
 		
 		RetornaIp retornaIp = new RetornaIp();
 		String ipCliente = retornaIp.retornaIp();

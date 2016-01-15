@@ -26,7 +26,7 @@ public class RetornaIp {
             InetAddress ia;
             while (ias.hasMoreElements()) {
                 ia = (InetAddress) ias.nextElement();
-                if (ia.getHostAddress().contains("192.168")) {//Nesse if está a charada, sendo que eu sei que meu ip começa com 10.132, por exemplo
+                if (ia.getHostAddress().contains("10.0")) {//Nesse if está a charada, sendo que eu sei que meu ip começa com 10.132, por exemplo
                 	ip = ia.getHostAddress();    
                 }
              

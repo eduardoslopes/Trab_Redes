@@ -14,7 +14,7 @@ public class Test {
             String senha1Criptografada = Criptografia.convertPasswordToMD5(senha1);
             String senha2Criptografada = Criptografia.convertPasswordToMD5(senha2);
  
-            String senha1CriptografadaTeste = Criptografia.convertPasswordToMD5(senha1);
+            String senha1CriptografadaTeste = Criptografia.convertPasswordToMD5("Senha1");
  
             System.out.println("Senha 1 Criptografada: " + senha1Criptografada);
             System.out.println("Senha 2 Criptografada " + senha2Criptografada);
