@@ -17,6 +17,7 @@ public class MidleServer {
 			//Captura mensagem cliente
 			String msgCliente = null;
 			msgCliente = leitorMsg.nextLine();
+			System.out.println(msgCliente);
 			
 			//Inicia thread para escolha do servidor e encaminhamento da mensagem
 			Encaminha encaminhador = new Encaminha(msgCliente);
