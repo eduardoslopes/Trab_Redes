@@ -1,17 +1,17 @@
-package com.piratedropbox.server.view;
+package com.piratedropbox.controller;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Main {
+public class Teste {
 
 	public static void main(String[] args) {
 		try {
-			Socket s = new Socket("192.168.0.105", 9999);
+			Socket s = new Socket("localhost", 9999);
 			PrintStream ps = new PrintStream(s.getOutputStream());
-			ps.println("Buceta!");
+			ps.println(" :P ");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -19,7 +19,6 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 }

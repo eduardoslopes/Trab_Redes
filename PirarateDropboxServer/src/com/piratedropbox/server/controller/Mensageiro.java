@@ -1,4 +1,4 @@
-package com.piratedropbox.client.model;
+package com.piratedropbox.server.controller;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Scanner;
 
-import com.piratedropbox.client.model.Mensagem;
+import com.piratedropbox.server.model.Mensagem;
 
 
 public class Mensageiro extends Thread implements Runnable{
@@ -27,6 +27,7 @@ public class Mensageiro extends Thread implements Runnable{
 	
 	public void enviarMensagem(){
 		try {
+			System.out.println("Aqui <- ");
 			System.out.println("Antes de enviar1: "+Mensagem.mensagemToJson(msg));
 			PrintStream envia;
 			envia = new PrintStream(conexao.getOutputStream());

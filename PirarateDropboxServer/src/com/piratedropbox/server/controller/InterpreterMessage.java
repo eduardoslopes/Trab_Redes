@@ -12,7 +12,6 @@ import com.piratedropbox.server.model.Pasta;
 import com.piratedropbox.server.model.TAG;
 import com.piratedropbox.server.model.Usuario;
 import com.piratedropbox.server.model.dao.DBQueries;
-import com.piratedropbox.server.view.Mensageiro;
 
 public class InterpreterMessage extends ActionByTag {
 	
@@ -42,7 +41,7 @@ public class InterpreterMessage extends ActionByTag {
 	public void createP(Pasta pasta) {
 		Mensagem resposta;
 		if(db.createP(pasta)){
-			resposta = new Mensagem(TAG.SUCCESS);
+			resposta = new Mensagem(TAG.CREATEP);
 		}else{
 			resposta = new Mensagem(TAG.FAIL);
 		}
@@ -53,14 +52,15 @@ public class InterpreterMessage extends ActionByTag {
 	public void seeP(int idPasta) {
 		Mensagem resposta;
 		List<Object> emPasta = db.seeP(idPasta);
-		resposta = new Mensagem(TAG.SEEP, emPasta);
-		sender(resposta);
+		sender(emPasta);
 	}
 
 	@Override
 	public void downA(int idArquivo) {
 		Mensagem resposta;
 		Arquivo arquivo = db.downA(idArquivo);
+		System.out.println(arquivo == null);
+		System.out.println("Nome: "+arquivo.getNome()+ " bytes: "+ arquivo.getArquivoBruto());
 		resposta = new Mensagem(TAG.DOWNA, arquivo);
 		sender(resposta);
 	}
@@ -69,7 +69,7 @@ public class InterpreterMessage extends ActionByTag {
 	public void shareA(int idArquivo, String username) {
 		Mensagem resposta;
 		if(db.shareA(idArquivo, username)){
-			resposta = new Mensagem(TAG.SUCCESS);
+			resposta = new Mensagem(TAG.SHAREA);
 		}else{
 			resposta = new Mensagem(TAG.FAIL);
 		}
@@ -80,7 +80,7 @@ public class InterpreterMessage extends ActionByTag {
 	public void shareP(int idPasta, String username) {
 		Mensagem resposta;
 		if(db.shareP(idPasta, username)){
-			resposta = new Mensagem(TAG.SUCCESS);
+			resposta = new Mensagem(TAG.SHAREP);
 		}else{
 			resposta = new Mensagem(TAG.FAIL);
 		}
@@ -91,7 +91,7 @@ public class InterpreterMessage extends ActionByTag {
 	public void createU(Usuario usuario) {
 		Mensagem resposta;
 		if(db.createU(usuario)){
-			resposta = new Mensagem(TAG.SUCCESS);
+			resposta = new Mensagem(TAG.CREATEU);
 		}else{
 			resposta = new Mensagem(TAG.FAIL);
 		}
@@ -100,9 +100,11 @@ public class InterpreterMessage extends ActionByTag {
 
 	@Override
 	public void loginU(Usuario usuario) {
+		System.out.println("Nulo? "+usuario == null);
 		Mensagem resposta;
-		if(db.loginU(usuario)){
-			resposta = new Mensagem(TAG.SUCCESS);
+		Pasta pastaRaiz = db.loginU(usuario);
+		if(pastaRaiz != null){
+			resposta = new Mensagem(TAG.LOGINU, pastaRaiz);
 		}else{
 			resposta = new Mensagem(TAG.FAIL);
 		}
@@ -111,7 +113,25 @@ public class InterpreterMessage extends ActionByTag {
 
 	private void sender(Mensagem resposta){
 		try {
-			Mensageiro m = new Mensageiro(new Socket(this.msg.getIpCliente(), 12345), resposta);
+			System.out.println( "IP: "+ this.msg.getIpCliente());
+			Socket sock = new Socket(this.msg.getIpCliente(), 9999);
+			Mensageiro m = new Mensageiro(sock, resposta);
+			m.start();
+			ServerController.connections.add(m);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void sender(List<Object> emPasta){
+		try {
+			System.out.println( "IP: "+ this.msg.getIpCliente());
+			Socket sock = new Socket(this.msg.getIpCliente(), 9999);
+			MensageiroDePasta m = new MensageiroDePasta(sock, emPasta);
+			m.start();
+			ServerController.connections.add(m);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -30,7 +30,7 @@ public abstract class ActionByTag {
 			createP(msg.getPasta());
 			break;
 		case TAG.DOWNA:
-			downA(msg.getId());
+			downA(msg.getArquivo().getId());
 			break;
 		case TAG.SEEP :
 			seeP(msg.getId());
@@ -45,7 +45,7 @@ public abstract class ActionByTag {
 			createU(msg.getUsuario());
 			break;
 		case TAG.LOGINU:
-			createU(msg.getUsuario());
+			loginU(msg.getUsuario());
 			break;
 		}
 	}

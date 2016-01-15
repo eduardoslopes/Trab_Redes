@@ -10,8 +10,11 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.piratedropbox.controller.ControladorMensagemInterfaceGrafica;
+import com.piratedropbox.controller.ControladorRecebecimento;
 import com.piratedropbox.model.Arquivo;
+import com.piratedropbox.model.Mensagem;
 import com.piratedropbox.model.Pasta;
+import com.piratedropbox.model.TAG;
 
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
@@ -24,8 +27,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.Button;
 import java.awt.Label;
 
@@ -33,6 +39,12 @@ public class TelaInicialClient extends JFrame {
 
 	private JPanel contentPane;
 	private int contadorId = 0;
+	private Pasta pasta;
+	private Arquivo arquivo;
+	private JList list_1;
+	DefaultListModel<Object> list;
+	private Login telaLogin;
+
 	/**
 	 * Launch the application.
 	 */
@@ -49,123 +61,200 @@ public class TelaInicialClient extends JFrame {
 		});
 	}
 
+	public void carregarObjetos(List<Object> arquivos) {
+		if (arquivos != null) {
+			for (Object arquivo : arquivos) {
+				if (arquivo instanceof Arquivo)
+					System.out.println(((Arquivo) arquivo).getNome());
+					list.addElement((Arquivo) arquivo);
+				if (arquivo instanceof Pasta)
+					list.addElement((Pasta) arquivo);
+			}
+			System.out.println("OLAOLAOLA " + list == null);
+			list_1.setModel(list);
+		}
+		
+
+	}
+
 	/**
 	 * Create the frame.
 	 */
-	public TelaInicialClient() {
+	public TelaInicialClient() {// Login telaLogin) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 556, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JList list = new JList();
-		list.setBounds(188, 90, 1, 1);
-		contentPane.add(list);
-		
+
 		JList list_1 = new JList();
 		list_1.setBounds(38, 29, 156, 243);
+		list = new DefaultListModel<Object>();
 		contentPane.add(list_1);
-		
+
+		// public void método pra carregar objetos
+
 		JButton btnCarregarCoisas = new JButton("Carregar Arquivos");
 		btnCarregarCoisas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				// ControladorMensagemInterfaceGrafica controlador = new
+				// ControladorMensagemInterfaceGrafica();
+				// controlador.carregarArquivos();
+
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-				controlador.carregarArquivos();
-				
-				//DefaultListModel list = new DefaultListModel();
-				
-				//list.addElement("corinthians");
-				//list.addElement("corinthians2");
-				//list_1.setModel(list);
+				try {
+					controlador.carregarArquivos();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				CustomListCellRendererArquivo clcra = new CustomListCellRendererArquivo();
+				list_1.setCellRenderer(clcra);
+
+				DefaultListModel list = new DefaultListModel();
+
+				// list.addElement(pasta);
+				// list_1.setModel(list);
+
+				// list.addElement("corinthians2");
+				// list_1.setModel(list);
 			}
 		});
 		btnCarregarCoisas.setBounds(227, 49, 163, 25);
 		contentPane.add(btnCarregarCoisas);
-		
-		JButton btnAdd = new JButton("Upar Pasta");
-		btnAdd.addActionListener(new ActionListener() {
+
+		JButton btnCompartilhar = new JButton("Compartilhar"); // Id arquivo, id
+																// pasta. Tela:
+																// Quem
+																// compartilhar:
+																// Username.
+		btnCompartilhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FileFilter filter = new FileNameExtensionFilter(".txt","gpx");
-				JFileChooser arquivoSeleciona = new JFileChooser(); //Parte JFileChooser
-				arquivoSeleciona.setDialogTitle("Abrir Arquivo");
-				arquivoSeleciona.setFileSelectionMode(arquivoSeleciona.DIRECTORIES_ONLY);
-				arquivoSeleciona.addChoosableFileFilter(filter);
-				arquivoSeleciona.showOpenDialog(null);
-				File file = arquivoSeleciona.getSelectedFile();
-				
-				Path path = Paths.get(file.getPath()); // Converte pasta em array de bytes, talvez precise.
-			    byte[] data = null;
+
+				String userName = JOptionPane.showInputDialog("Qual seu nome de usuário?");
+				// Arquivo arquivo = new Arquivo(3,"Readme");
+				// Mensagem msg = new Mensagem(TAG.SHAREP,14,"gustavo");
+
+				// id 14 user "gustavo"
+
+				// ControladorMensagemInterfaceGrafica controladorArquivo = new
+				// ControladorMensagemInterfaceGrafica();// Compartilha Arquivo
+				// try {
+				// controladorArquivo.compartilharArquivo(arquivo,userName);
+				// } catch (NumberFormatException e1) {
+				// // TODO Auto-generated catch block
+				// e1.printStackTrace();
+				// } catch (IOException e1) {
+				// // TODO Auto-generated catch block
+				// e1.printStackTrace();
+				// }
+
+				ControladorMensagemInterfaceGrafica controladorPasta = new ControladorMensagemInterfaceGrafica();// Compartilha
+																													// Arquivo
 				try {
-					data = Files.readAllBytes(path);
+					controladorPasta.compartilharPasta(14, "gustavo");
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				Pasta pasta = new Pasta(contadorId++,"Nome"); // Adicionando pasta ao Jlist
-				DefaultListModel list = new DefaultListModel();
-				list.add(contadorId, pasta);
-				
-				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-				controlador.uparPasta(pasta);
 			}
 		});
-		btnAdd.setBounds(227, 98, 163, 25);
-		contentPane.add(btnAdd);
-		
-		JButton btnCompartilhar = new JButton("Compartilhar");
 		btnCompartilhar.setBounds(27, 284, 175, 25);
 		contentPane.add(btnCompartilhar);
-		
+
 		JButton btnNewButton = new JButton("Upar Arquivo");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser arquivoSeleciona = new JFileChooser(); 
+
+				JFileChooser arquivoSeleciona = new JFileChooser();
 				arquivoSeleciona.setDialogTitle("Abrir Arquivo");
 				arquivoSeleciona.setFileSelectionMode(arquivoSeleciona.FILES_ONLY);
 				arquivoSeleciona.showOpenDialog(null);
 				File file = arquivoSeleciona.getSelectedFile();
-				
-				Path path = Paths.get(file.getPath()); // Converte arquivo em array de bytes
-			    byte[] data = null;
+
+				Path path = Paths.get(file.getPath()); // Converte arquivo em
+														// array de bytes
+				byte[] data = null;
 				try {
 					data = Files.readAllBytes(path);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+
+				Arquivo arquivo = new Arquivo(file.getName(), data);// Adicionando
+																	// ao JList
+
+				list.addElement(arquivo);
+				list_1.setModel(list);
+				CustomListCellRendererArquivo campoArquivo = new CustomListCellRendererArquivo();// Renderizar
+																									// só
+																									// pasta
+																									// com
+																									// imagem
+																									// de
+																									// pasta
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).getClass().isInstance(arquivo)) {
+						list_1.setCellRenderer(campoArquivo);
+					}
+				}
+				System.out.println(list.size());
+
+				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
+				try {
+					controlador.uparArquivo(arquivo, 4);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				Arquivo arquivo = new Arquivo(file.getName(),data); // Adicionando ao JList
-				DefaultListModel list = new DefaultListModel();
-				list.add(contadorId, arquivo);
-				
-				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica(); 
-				controlador.uparArquivo(arquivo);
 			}
 		});
-		btnNewButton.setBounds(227, 148, 163, 25);
+		btnNewButton.setBounds(227, 116, 163, 25);
 		contentPane.add(btnNewButton);
-		
+
 		JMenuItem menuItem = new JMenuItem("Sair");
 		menuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Login login = new Login();
+				// login.setVisible(true);
 				System.exit(0);
 			}
 		});
 		menuItem.setBounds(425, 0, 129, 19);
 		contentPane.add(menuItem);
-		
-		JButton btnNewButton_1 = new JButton("Download");
-		btnNewButton_1.addActionListener(new ActionListener() {
+
+		JButton btnDownload = new JButton("Download");
+		btnDownload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Tenho que passar o caminho pra baixar o arquivo//
-				
+				Arquivo arquivo = new Arquivo(4, "ISAC");
+				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
+				try {
+					controlador.downloadArquivo(arquivo);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				// try {
+				// System.out.println("entrou no try");
+				// ControladorRecebecimento controladorRecebimento = new
+				// ControladorRecebecimento();
+				// controladorRecebimento.recebeConexao();
+				// } catch (IOException e1) {
+				// // TODO Auto-generated catch block
+				// e1.printStackTrace();
+				// }
+
 			}
 		});
-		btnNewButton_1.setBounds(227, 197, 163, 25);
-		contentPane.add(btnNewButton_1);
-		
+		btnDownload.setBounds(227, 182, 163, 25);
+		contentPane.add(btnDownload);
 	}
+
 }
