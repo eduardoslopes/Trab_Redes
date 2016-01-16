@@ -130,12 +130,7 @@ public class InterpreterMessage extends ActionByTag {
 			login.setPodeLogar(true);
 			System.out.println("mensagem" + msg.getId());
 			ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-			try {
-				controlador.carregarArquivos(msg.getPasta().getId());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			controlador.carregarArquivos(msg.getPasta().getId());
 			Main.telaInicialCliente.setVisible(true);
 			Main.telaInicialCliente.setPasta(msg.getPasta().getId());
 //			telaCliente.pack();

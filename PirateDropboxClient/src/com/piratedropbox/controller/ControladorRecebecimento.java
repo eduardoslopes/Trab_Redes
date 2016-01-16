@@ -35,9 +35,9 @@ public class ControladorRecebecimento { // extends Thread{
 			// Socket novaConexao = server.accept();
 			// Receiver receiver = new Receiver(novaConexao);
 			// receiver.start();
-			System.out.println("essa buceta veio aqui! :(");
+			System.out.println("veio aqui! :(");
 			Socket socketCliente = server.accept();
-			System.out.println("essa buceta veio aqui! :(2");
+			System.out.println("veio aqui! :(2");
 			Scanner scanner;
 			InterpreterMessage im = new InterpreterMessage();
 
@@ -53,11 +53,13 @@ public class ControladorRecebecimento { // extends Thread{
 				List<Object> obj = null;
 				if (m.getTAG().equals(TAG.SEEP)) {
 					obj = new ArrayList<Object>();
-					if (m.getArquivo() == null)
-						if (m.getPasta() != null)
+					if (m.getArquivo() == null){
+						if (m.getPasta() != null){
 							obj.add(m.getPasta());
-						else
-							obj.add(m.getArquivo());
+						}
+					}else{
+						obj.add(m.getArquivo());
+					}
 					while (scanner.hasNextLine()) {
 
 						msg = scanner.nextLine();

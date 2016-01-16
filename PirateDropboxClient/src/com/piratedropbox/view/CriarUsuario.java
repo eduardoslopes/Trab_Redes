@@ -111,12 +111,7 @@ public class CriarUsuario extends JFrame {
 				textUsername.setText("");
 				System.out.println(senha);
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-				try {
-					controlador.criarUsuario(usuario);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				controlador.criarUsuario(usuario);
 
 			}
 		});

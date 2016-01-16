@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class MidleServer {
 	public static void main(String[] args) throws Exception {
 		@SuppressWarnings("resource")
-		ServerSocket midleServer = new ServerSocket(12345);
+		ServerSocket midleServer = new ServerSocket(23456);
 		
 		while(true) {
 			

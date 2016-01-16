@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.metal.MetalIconFactory;
+import javax.swing.text.IconView;
 
 import com.piratedropbox.controller.ControladorMensagemInterfaceGrafica;
 import com.piratedropbox.model.Arquivo;
@@ -27,6 +28,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
 
@@ -46,8 +51,9 @@ public class TelaInicialClient extends JFrame {
 	private JPanel contentPane;
 	private JScrollPane scrollPane;
 	private JList<Object> jlist;
-	private DefaultListModel<Object> listModel = new DefaultListModel<Object>();
-	Map<Object, Icon> icons = null;
+	private DefaultListModel<Object> listModel;
+	private Map<Object, Icon> icons = null;
+	private Stack<Integer> pilhaPastas;
 
 	/**
 	 * Launch the application.
@@ -73,7 +79,7 @@ public class TelaInicialClient extends JFrame {
 	// }
 
 	public void carregarObjetos(List<Object> arquivos) {
-
+		listModel.removeAllElements();
 		if (arquivos != null) {
 			for (Object arquivo : arquivos) {
 				if (arquivo instanceof Arquivo) {
@@ -102,12 +108,15 @@ public class TelaInicialClient extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaInicialClient() {
+		Map<Object, Icon> icons = new HashMap<Object, Icon>();
+		icons.put(Arquivo.class, MetalIconFactory.getFileChooserHomeFolderIcon());
+		icons.put(Pasta.class, MetalIconFactory.getTreeFolderIcon());
+		IconListRenderer cellRenderer = new IconListRenderer(icons);
+		listModel = new DefaultListModel<>();
 		JList<Object> jList = new JList<Object>(listModel);
 		System.out.println(listModel.size());
-		Map<Object, Icon> icons = new HashMap<Object, Icon>(); // Criando MAP
-		icons.put(arquivo, new ImageIcon("/home/julioserafim/Documentos/Java/PirateDropboxClient/img/file.png"));
-		icons.put(pasta, new ImageIcon("/home/julioserafim/Documentos/Java/PirateDropboxClient/img/folder.png"));
-
+		pilhaPastas = new Stack<>();
+		
 		setTitle("Tela Ciente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 616, 476);
@@ -117,22 +126,35 @@ public class TelaInicialClient extends JFrame {
 		contentPane.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(33, 12, 303, 371);
+		scrollPane.setBounds(12, 57, 403, 349);
 		contentPane.add(scrollPane);
 
 		jlist = new JList<Object>();
 		scrollPane.setViewportView(jlist);
+		jlist.setCellRenderer(cellRenderer);
+		
+		jlist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2 && jlist.getSelectedValue() instanceof Pasta){
+					System.out.println("pilha no click: "+ pilhaPastas.toString());
+					pilhaPastas.push(idPastaAtual);
+					idPastaAtual = ((Pasta)jlist.getSelectedValue()).getId();
+					
+					System.out.println("pilha no click: "+ pilhaPastas.toString());
+					ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
+					controlador.carregarArquivos(((Pasta)jlist.getSelectedValue()).getId());
+				}
+				super.mouseClicked(e);
+			}
+		});
 
 		JButton button = new JButton("Carregar Arquivos");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-				try {
-					controlador.carregarArquivos(idPastaAtual);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
+				controlador.carregarArquivos(idPastaAtual);
 
 				// CustomListCellRendererArquivo clcra = new
 				// CustomListCellRendererArquivo();
@@ -143,7 +165,7 @@ public class TelaInicialClient extends JFrame {
 			}
 
 		});
-		button.setBounds(380, 46, 163, 25);
+		button.setBounds(439, 54, 163, 25);
 		contentPane.add(button);
 
 		JButton btnCompartilhar = new JButton("Compartilhar");
@@ -162,9 +184,6 @@ public class TelaInicialClient extends JFrame {
 					} catch (NumberFormatException e1) {
 
 						e1.printStackTrace();
-					} catch (IOException e1) {
-
-						e1.printStackTrace();
 					}
 
 				}
@@ -180,9 +199,6 @@ public class TelaInicialClient extends JFrame {
 							} catch (NumberFormatException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
 							}
 						}
 					}
@@ -196,7 +212,7 @@ public class TelaInicialClient extends JFrame {
 			
 
 		});
-		btnCompartilhar.setBounds(33, 395, 175, 25);
+		btnCompartilhar.setBounds(439, 374, 163, 25);
 		contentPane.add(btnCompartilhar);
 
 		JButton button_2 = new JButton("Upar Arquivo");
@@ -242,16 +258,11 @@ public class TelaInicialClient extends JFrame {
 				// System.out.println(listModel.size());
 				System.out.println("id pasta atual fela:" + idPastaAtual);
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-				try {
-					controlador.uparArquivo(arquivo, idPastaAtual);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				controlador.uparArquivo(arquivo, idPastaAtual);
 			}
 
 		});
-		button_2.setBounds(380, 91, 163, 25);
+		button_2.setBounds(439, 125, 163, 25);
 		contentPane.add(button_2);
 
 		JButton button_3 = new JButton("Download");
@@ -261,18 +272,13 @@ public class TelaInicialClient extends JFrame {
 				if (jlist.getSelectedValue() instanceof Arquivo) {
 					arquivo = (Arquivo) jlist.getSelectedValue();
 					ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-					try {
-						controlador.downloadArquivo(arquivo);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					controlador.downloadArquivo(arquivo);
 				}
 			}
 			
 
 		});
-		button_3.setBounds(380, 140, 163, 25);
+		button_3.setBounds(439, 207, 163, 25);
 		contentPane.add(button_3);
 
 		JMenuItem menuItem = new JMenuItem("Sair");
@@ -293,22 +299,35 @@ public class TelaInicialClient extends JFrame {
 				listModel.addElement(pasta);
 
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
-				try {
-					controlador.criarPasta(pasta);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				controlador.criarPasta(pasta);
 
 			}
 		});
-		btnCriarPasta.setBounds(380, 187, 163, 25);
+		btnCriarPasta.setBounds(439, 289, 163, 25);
 		contentPane.add(btnCriarPasta);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!pilhaPastas.isEmpty()) {
+					System.out.println("pilha ao voltar: "+ pilhaPastas.toString());
+					int idPastaAnterior = pilhaPastas.pop();
+					System.out.println("pasta anterior: "+idPastaAnterior);
+					System.out.println("pilha ao voltar: "+ pilhaPastas.toString());
+					ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
+					controlador.carregarArquivos(idPastaAnterior);
+					idPastaAtual = idPastaAnterior;
+				}else{
+					
+				}
+			}
+		});
+		btnVoltar.setBounds(12, 20, 117, 25);
+		contentPane.add(btnVoltar);
 	}
 
 	public void setPasta(int idPasta) {
 		this.idPastaAtual = idPasta;
 	}
-	
 	
 }

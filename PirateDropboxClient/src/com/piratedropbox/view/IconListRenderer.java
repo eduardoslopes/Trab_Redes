@@ -1,6 +1,7 @@
 package com.piratedropbox.view;
 
 import java.awt.Component;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,9 @@ import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.plaf.metal.MetalIconFactory;
 
+import com.piratedropbox.model.Arquivo;
+import com.piratedropbox.model.Pasta;
+
 public class IconListRenderer extends DefaultListCellRenderer {
 
 private Map<Object, Icon> icons = null;
@@ -27,52 +31,48 @@ private Map<Object, Icon> icons = null;
 	public Component getListCellRendererComponent(
 		JList list, Object value, int index, 
 		boolean isSelected, boolean cellHasFocus) {
-		
-		// Get the renderer component from parent class
-		
+
 		JLabel label = (JLabel) super.getListCellRendererComponent(list, 
 				value, index, isSelected, cellHasFocus);
 		
-		// Get icon to use for the list item value
-		
-		Icon icon = icons.get(value);
-		
-		// Set icon to display for value
-		
+		Icon icon = icons.get(value.getClass());
 		label.setIcon(icon);
 		return label;
 	}
 
 	public static void main(String[] args) {
-
-//		// setup mappings for which icon to use for each value
-//		
-//		Map<Object, Icon> icons = new HashMap<Object, Icon>();
-//		icons.put("detailssdsds", 
-//			new ImageIcon("/home/julioserafim/Documentos/Java/PirateDropboxClient/img/file.png"));
-//		icons.put("folder", 
-//			MetalIconFactory.getTreeFolderIcon());
-//		icons.put("computer", 
-//			MetalIconFactory.getFileChooserListViewIcon() );
-//		
-//		JFrame frame = new JFrame("Icon List");
-//		frame.setDefaultCloseOperation(
-//			JFrame.DISPOSE_ON_CLOSE);
-//		
-//		// create a list with some test data
-//		
-//		//new JList<Object>();
-//		
-//		JList list = new JList(new Object[] {"deta", "computer", "folder", "computer"});
-//		
-//		// create a cell renderer to add the appropriate icon
-//		IconListRenderer iconListRenderer = new IconListRenderer(icons);
-//		
-//		list.setCellRenderer(iconListRenderer);
-//		frame.add(list);
-//		frame.pack();
-//		frame.setVisible(true);
-//	}
-//	
+		
+		Map<Object, Icon> icons = new HashMap<Object, Icon>();
+		icons.put(Arquivo.class, 
+			MetalIconFactory.getFileChooserHomeFolderIcon());
+		icons.put(Pasta.class, 
+			MetalIconFactory.getTreeFolderIcon());
+		
+		
+		JFrame frame = new JFrame("Icon List");
+		frame.setDefaultCloseOperation(
+			JFrame.DISPOSE_ON_CLOSE);
+		
+		// create a list with some test data
+		
+		//new JList<Object>();
+		
+		Arquivo a1 = new Arquivo(1, "edu");
+		Arquivo a2 = new Arquivo(2, "dudu");
+		Pasta p1 = new Pasta(3, "mii");
+		Pasta p2 = new Pasta(4, "milena");
+		
+		
+		Object[] objetos = {a1, p1, a2, p2};
+		
+		JList list = new JList(objetos);
+		// create a cell renderer to add the appropriate icon
+		IconListRenderer iconListRenderer = new IconListRenderer(icons);
+		
+		list.setCellRenderer(iconListRenderer);
+		frame.add(list);
+		frame.pack();
+		frame.setVisible(true);
 	}
+	
 }

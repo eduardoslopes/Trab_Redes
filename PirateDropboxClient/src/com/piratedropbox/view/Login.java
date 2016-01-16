@@ -88,12 +88,7 @@ public class Login extends JFrame {
 				txtLogin.setText("");
 				txtSenha.setText("");
 				System.out.println(senha);
-				try {
-					controlador.loginUsuario(usuario);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				controlador.loginUsuario(usuario);
 				
 				
 				

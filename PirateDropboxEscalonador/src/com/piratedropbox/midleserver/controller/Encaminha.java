@@ -20,7 +20,9 @@ public class Encaminha implements Runnable {
 	@Override
 	public void run() {
 		try { 
-			Socket socketServidor1 = new Socket("piratedropboxserver1.com", 12345);
+//			Socket socketServidor1 = new Socket("piratedropboxserver1.com", 12345);
+			Socket socketServidor1 = new Socket("127.0.0.1", 12345);
+
 //			Socket socketServidor2 = new Socket("piratedropboxserver2.com", 23456);
 //			Socket escolhido = verificaServidor(socketServidor1, socketServidor2);
 			PrintStream saida = new PrintStream(socketServidor1.getOutputStream());
