@@ -53,22 +53,27 @@ public class ControladorRecebecimento { // extends Thread{
 				List<Object> obj = null;
 				if (m.getTAG().equals(TAG.SEEP)) {
 					obj = new ArrayList<Object>();
-					if(m.getArquivo().equals(null))
-						obj.add(m.getPasta());
-					else obj.add(m.getArquivo());
+					if (m.getArquivo() == null)
+						if (m.getPasta() != null)
+							obj.add(m.getPasta());
+						else
+							obj.add(m.getArquivo());
 					while (scanner.hasNextLine()) {
 
 						msg = scanner.nextLine();
-						
+
 						m = Mensagem.jsonToMensagem(msg);
 						if (m.getTAG().equals(TAG.SEEP)) {
 							System.out.println("seep - " + msg);
-							if(m.getArquivo().equals(null))
-								obj.add(m.getPasta());
-							else obj.add(m.getArquivo());
+							if (m.getArquivo() == null) {
+								if (m.getPasta() != null)
+									obj.add(m.getPasta());
+							} else
+								obj.add(m.getArquivo());
 						}
-							
-						else break;
+
+						else
+							break;
 					}
 					Main.telaInicialCliente.carregarObjetos(obj);
 				} else {

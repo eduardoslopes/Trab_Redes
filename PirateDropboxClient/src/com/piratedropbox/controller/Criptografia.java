@@ -14,8 +14,5 @@ public class Criptografia{
         return String.format("%32x", hash);
     }
     
-    public static String desconvertPasswordToString(String password) throws NoSuchAlgorithmException {
-		return password;
-    }
- 
+
 }

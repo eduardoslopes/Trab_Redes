@@ -3,21 +3,26 @@ package com.piratedropbox.view;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.metal.MetalIconFactory;
 
 import com.piratedropbox.controller.ControladorMensagemInterfaceGrafica;
-import com.piratedropbox.controller.ControladorRecebecimento;
 import com.piratedropbox.model.Arquivo;
 import com.piratedropbox.model.Mensagem;
 import com.piratedropbox.model.Pasta;
 import com.piratedropbox.model.TAG;
 
+import javax.swing.JScrollPane;
 import javax.swing.JList;
-import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -27,23 +32,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-
-import java.awt.Button;
-import java.awt.Label;
 
 public class TelaInicialClient extends JFrame {
-
-	private JPanel contentPane;
-	private int contadorId = 0;
-	private Pasta pasta;
 	private Arquivo arquivo;
-	private JList list_1;
-	DefaultListModel<Object> list;
-	private Login telaLogin;
+	private Pasta pasta;
+	private int idPastaAtual;
+	private JPanel contentPane;
+	private JScrollPane scrollPane;
+	private JList<Object> jlist;
+	private DefaultListModel<Object> listModel = new DefaultListModel<Object>();
+	Map<Object, Icon> icons = null;
 
 	/**
 	 * Launch the application.
@@ -54,6 +58,7 @@ public class TelaInicialClient extends JFrame {
 				try {
 					TelaInicialClient frame = new TelaInicialClient();
 					frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -61,117 +66,142 @@ public class TelaInicialClient extends JFrame {
 		});
 	}
 
+	// public void retornarListaModel(DefaultListModel<Object> listModel){
+	// for(int i = 0; i < listModel.size(); i++){
+
+	// }
+	// }
+
 	public void carregarObjetos(List<Object> arquivos) {
+
 		if (arquivos != null) {
 			for (Object arquivo : arquivos) {
-				if (arquivo instanceof Arquivo)
-					System.out.println(((Arquivo) arquivo).getNome());
-					list.addElement((Arquivo) arquivo);
-				if (arquivo instanceof Pasta)
-					list.addElement((Pasta) arquivo);
+				if (arquivo instanceof Arquivo) {
+					listModel.addElement((Arquivo) arquivo);
+
+				}
+
+				if (arquivo instanceof Pasta) {
+					listModel.addElement((Pasta) arquivo);
+				}
+
+				// jlist.setCellRenderer(new IconListRenderer(icons));
+
 			}
-			System.out.println("OLAOLAOLA " + list == null);
-			list_1.setModel(list);
+			// System.out.println("OLAOLAOLA " + list == null);
+			// list_1.setModel(list);
+			System.out.println(listModel.size());
+			System.out.println("OFICIAL");
+			jlist.setModel(listModel); // Adicionar os elementos
+			
 		}
-		
 
 	}
 
 	/**
 	 * Create the frame.
 	 */
-	public TelaInicialClient() {// Login telaLogin) {
+	public TelaInicialClient() {
+		JList<Object> jList = new JList<Object>(listModel);
+		System.out.println(listModel.size());
+		Map<Object, Icon> icons = new HashMap<Object, Icon>(); // Criando MAP
+		icons.put(arquivo, new ImageIcon("/home/julioserafim/Documentos/Java/PirateDropboxClient/img/file.png"));
+		icons.put(pasta, new ImageIcon("/home/julioserafim/Documentos/Java/PirateDropboxClient/img/folder.png"));
+
+		setTitle("Tela Ciente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 556, 400);
+		setBounds(100, 100, 616, 476);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JList list_1 = new JList();
-		list_1.setBounds(38, 29, 156, 243);
-		list = new DefaultListModel<Object>();
-		contentPane.add(list_1);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(33, 12, 303, 371);
+		contentPane.add(scrollPane);
 
-		// public void método pra carregar objetos
+		jlist = new JList<Object>();
+		scrollPane.setViewportView(jlist);
 
-		JButton btnCarregarCoisas = new JButton("Carregar Arquivos");
-		btnCarregarCoisas.addActionListener(new ActionListener() {
+		JButton button = new JButton("Carregar Arquivos");
+		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				// ControladorMensagemInterfaceGrafica controlador = new
-				// ControladorMensagemInterfaceGrafica();
-				// controlador.carregarArquivos();
-
+				
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 				try {
-					controlador.carregarArquivos();
+					controlador.carregarArquivos(idPastaAtual);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
-				CustomListCellRendererArquivo clcra = new CustomListCellRendererArquivo();
-				list_1.setCellRenderer(clcra);
+				// CustomListCellRendererArquivo clcra = new
+				// CustomListCellRendererArquivo();
+				// jlist.setCellRenderer(clcra);;
 
-				DefaultListModel list = new DefaultListModel();
+				// DefaultListModel list = new DefaultListModel();
 
-				// list.addElement(pasta);
-				// list_1.setModel(list);
-
-				// list.addElement("corinthians2");
-				// list_1.setModel(list);
 			}
-		});
-		btnCarregarCoisas.setBounds(227, 49, 163, 25);
-		contentPane.add(btnCarregarCoisas);
 
-		JButton btnCompartilhar = new JButton("Compartilhar"); // Id arquivo, id
-																// pasta. Tela:
-																// Quem
-																// compartilhar:
-																// Username.
+		});
+		button.setBounds(380, 46, 163, 25);
+		contentPane.add(button);
+
+		JButton btnCompartilhar = new JButton("Compartilhar");
+
 		btnCompartilhar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				String userName = JOptionPane.showInputDialog("Qual seu nome de usuário?");
+				if (jlist.getSelectedValue() instanceof Arquivo) {
+					arquivo = (Arquivo) jlist.getSelectedValue();
+					String userName = JOptionPane.showInputDialog("Qual seu nome de usuário?");
+
+					ControladorMensagemInterfaceGrafica controladorArquivo = new ControladorMensagemInterfaceGrafica();// Compartilha
+																														// Arquivo
+					try {
+						controladorArquivo.compartilharArquivo(arquivo, userName);
+					} catch (NumberFormatException e1) {
+
+						e1.printStackTrace();
+					} catch (IOException e1) {
+
+						e1.printStackTrace();
+					}
+
+				}
+
+						if (jlist.getSelectedValue() instanceof Pasta) {
+							pasta = (Pasta) jlist.getSelectedValue();
+							String userName = JOptionPane.showInputDialog("Qual seu nome de usuário?");
+
+							ControladorMensagemInterfaceGrafica controladorPasta = new ControladorMensagemInterfaceGrafica(); // Compartilha
+																																// Pasta
+							try {
+								controladorPasta.compartilharPasta(pasta.getId(), userName);
+							} catch (NumberFormatException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					}
+
+
+				// String userName = JOptionPane.showInputDialog("Qual seu nome
+				// de usuário?");
 				// Arquivo arquivo = new Arquivo(3,"Readme");
 				// Mensagem msg = new Mensagem(TAG.SHAREP,14,"gustavo");
 
-				// id 14 user "gustavo"
+			
 
-				// ControladorMensagemInterfaceGrafica controladorArquivo = new
-				// ControladorMensagemInterfaceGrafica();// Compartilha Arquivo
-				// try {
-				// controladorArquivo.compartilharArquivo(arquivo,userName);
-				// } catch (NumberFormatException e1) {
-				// // TODO Auto-generated catch block
-				// e1.printStackTrace();
-				// } catch (IOException e1) {
-				// // TODO Auto-generated catch block
-				// e1.printStackTrace();
-				// }
-
-				ControladorMensagemInterfaceGrafica controladorPasta = new ControladorMensagemInterfaceGrafica();// Compartilha
-																													// Arquivo
-				try {
-					controladorPasta.compartilharPasta(14, "gustavo");
-				} catch (NumberFormatException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
 		});
-		btnCompartilhar.setBounds(27, 284, 175, 25);
+		btnCompartilhar.setBounds(33, 395, 175, 25);
 		contentPane.add(btnCompartilhar);
 
-		JButton btnNewButton = new JButton("Upar Arquivo");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton button_2 = new JButton("Upar Arquivo");
+		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				JFileChooser arquivoSeleciona = new JFileChooser();
 				arquivoSeleciona.setDialogTitle("Abrir Arquivo");
 				arquivoSeleciona.setFileSelectionMode(arquivoSeleciona.FILES_ONLY);
@@ -190,71 +220,95 @@ public class TelaInicialClient extends JFrame {
 				Arquivo arquivo = new Arquivo(file.getName(), data);// Adicionando
 																	// ao JList
 
-				list.addElement(arquivo);
-				list_1.setModel(list);
-				CustomListCellRendererArquivo campoArquivo = new CustomListCellRendererArquivo();// Renderizar
-																									// só
-																									// pasta
-																									// com
-																									// imagem
-																									// de
-																									// pasta
-				for (int i = 0; i < list.size(); i++) {
-					if (list.get(i).getClass().isInstance(arquivo)) {
-						list_1.setCellRenderer(campoArquivo);
-					}
-				}
-				System.out.println(list.size());
+				listModel.addElement(arquivo);
+				jlist.setModel(listModel);
 
+				// CustomListCellRendererArquivo campoArquivo = new
+				// CustomListCellRendererArquivo();// Renderizar
+
+				IconListRenderer iconRenderizado = new IconListRenderer(icons);
+				jlist.setCellRenderer(iconRenderizado);
+				System.out.println("impressao" + icons);// só
+														// pasta
+														// com
+														// imagem
+														// de
+														// pasta
+				// for (int i = 0; i < listModel.size(); i++) {
+				// if (listModel.get(i).getClass().isInstance(arquivo)) {
+				// jlist.setCellRenderer(campoArquivo);
+				// }
+				// }
+				// System.out.println(listModel.size());
+				System.out.println("id pasta atual fela:" + idPastaAtual);
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 				try {
-					controlador.uparArquivo(arquivo, 4);
+					controlador.uparArquivo(arquivo, idPastaAtual);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
+
 		});
-		btnNewButton.setBounds(227, 116, 163, 25);
-		contentPane.add(btnNewButton);
+		button_2.setBounds(380, 91, 163, 25);
+		contentPane.add(button_2);
+
+		JButton button_3 = new JButton("Download");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(jlist.getSelectedValue().getClass());
+				if (jlist.getSelectedValue() instanceof Arquivo) {
+					arquivo = (Arquivo) jlist.getSelectedValue();
+					ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
+					try {
+						controlador.downloadArquivo(arquivo);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+			
+
+		});
+		button_3.setBounds(380, 140, 163, 25);
+		contentPane.add(button_3);
 
 		JMenuItem menuItem = new JMenuItem("Sair");
 		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Login login = new Login();
-				// login.setVisible(true);
+
+	public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		menuItem.setBounds(425, 0, 129, 19);
+		menuItem.setBounds(428, 0, 129, 19);
 		contentPane.add(menuItem);
 
-		JButton btnDownload = new JButton("Download");
-		btnDownload.addActionListener(new ActionListener() {
+		JButton btnCriarPasta = new JButton("Criar Pasta");
+		btnCriarPasta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Arquivo arquivo = new Arquivo(4, "ISAC");
+				String nomePasta = JOptionPane.showInputDialog("Qual o nome da pasta?");
+				Pasta pasta = new Pasta(nomePasta, idPastaAtual);
+				listModel.addElement(pasta);
+
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 				try {
-					controlador.downloadArquivo(arquivo);
+					controlador.criarPasta(pasta);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
-				// try {
-				// System.out.println("entrou no try");
-				// ControladorRecebecimento controladorRecebimento = new
-				// ControladorRecebecimento();
-				// controladorRecebimento.recebeConexao();
-				// } catch (IOException e1) {
-				// // TODO Auto-generated catch block
-				// e1.printStackTrace();
-				// }
-
 			}
 		});
-		btnDownload.setBounds(227, 182, 163, 25);
-		contentPane.add(btnDownload);
+		btnCriarPasta.setBounds(380, 187, 163, 25);
+		contentPane.add(btnCriarPasta);
 	}
 
+	public void setPasta(int idPasta) {
+		this.idPastaAtual = idPasta;
+	}
+	
+	
 }

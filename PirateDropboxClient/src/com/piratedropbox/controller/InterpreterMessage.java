@@ -40,7 +40,12 @@ public class InterpreterMessage extends ActionByTag {
 
 	@Override
 	public void createP(Mensagem msg) {
-		// TODO Auto-generated method stub
+		if(msg.getTAG().equals(TAG.CREATEP)){
+			JOptionPane.showMessageDialog(null, "Pasta criada com sucesso!");
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Falha ao criar pasta!");
+		}
 		
 	}
 
@@ -123,10 +128,18 @@ public class InterpreterMessage extends ActionByTag {
 		if(msg.getTAG().equals(TAG.LOGINU)){
 			Login login = new Login();
 			login.setPodeLogar(true);
-			
-			TelaInicialClient telaCliente =  new TelaInicialClient();
-			telaCliente.pack();
-			telaCliente.setVisible(true);
+			System.out.println("mensagem" + msg.getId());
+			ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
+			try {
+				controlador.carregarArquivos(msg.getPasta().getId());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Main.telaInicialCliente.setVisible(true);
+			Main.telaInicialCliente.setPasta(msg.getPasta().getId());
+//			telaCliente.pack();
+//			telaCliente.setVisible(true);
 			
 		}
 		

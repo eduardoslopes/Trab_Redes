@@ -14,6 +14,7 @@ import com.piratedropbox.controller.Criptografia;
 import com.piratedropbox.controller.InterpreterMessage;
 import com.piratedropbox.model.Arquivo;
 import com.piratedropbox.model.Usuario;
+import com.piratedropbox.test.Main;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -73,19 +74,20 @@ public class Login extends JFrame {
 				String userName = txtLogin.getText();
 				String senha = null;
 				try {
-					senha = Criptografia.convertPasswordToMD5(txtSenha.toString()); // Criptografar senha
+					senha = Criptografia.convertPasswordToMD5(txtSenha.getText());
+					System.out.println(txtSenha.getText());// Criptografar senha
+					
 				} catch (NoSuchAlgorithmException e2) {
-					// TODO Auto-generated catch block
+					//TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-				Usuario usuario = new Usuario("dudu","mileninha","Julio","Serafim");
-				
-				
-				
+				Usuario usuario = new Usuario(userName,senha);
+				System.out.println(senha);
 				
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 				txtLogin.setText("");
 				txtSenha.setText("");
+				System.out.println(senha);
 				try {
 					controlador.loginUsuario(usuario);
 				} catch (IOException e1) {
@@ -93,17 +95,11 @@ public class Login extends JFrame {
 					e1.printStackTrace();
 				}
 				
-				System.out.println(podeLogar);
 				
-				if(podeLogar == true){
-					TelaInicialClient telaInicial = new TelaInicialClient();
-					telaInicial.pack();
-					telaInicial.setVisible(true);
-					
-				}
+				
 			}
 		});
-		btnAcessar.setBounds(133, 111, 117, 25);
+		btnAcessar.setBounds(64, 111, 117, 25);
 		contentPane.add(btnAcessar);
 		
 		txtLogin = new JTextField();
@@ -114,6 +110,19 @@ public class Login extends JFrame {
 		txtSenha = new JPasswordField();
 		txtSenha.setBounds(133, 84, 117, 19);
 		contentPane.add(txtSenha);
+		
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				CriarUsuario criarUsuario = new CriarUsuario();
+//				criarUsuario.pack();
+//				criarUsuario.setVisible(true);
+//				
+				
+			}
+		});
+		btnCadastrar.setBounds(193, 111, 117, 25);
+		contentPane.add(btnCadastrar);
 	}
 
 	public void setPodeLogar(boolean podeLogar) {

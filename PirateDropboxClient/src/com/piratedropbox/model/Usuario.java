@@ -22,6 +22,11 @@ public class Usuario {
 		this.sobrenome = sobrenome;
 	}
 	
+	public Usuario(String userName2, String senha2) {
+		this.username = userName2;
+		this.senha = senha2;
+	}
+
 	public String getUsername() {
 		return username;
 	}

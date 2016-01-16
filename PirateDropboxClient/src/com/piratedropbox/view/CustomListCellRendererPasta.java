@@ -1,18 +1,20 @@
 package com.piratedropbox.view;
 
 import java.awt.Component;
+
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
+import javax.swing.DefaultListCellRenderer;
 
 
 
 
-public class CustomListCellRendererPasta extends JLabel implements ListCellRenderer {
+public class CustomListCellRendererPasta extends DefaultListCellRenderer {
 	
-	@Override
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
 			boolean cellHasFocus) {
 		//System.out.println(imagem.getIconHeight());
