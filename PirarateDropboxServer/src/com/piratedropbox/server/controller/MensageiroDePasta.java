@@ -32,16 +32,25 @@ public class MensageiroDePasta extends Thread implements Runnable{
 			System.out.println("Aqui <- ");
 //			System.out.println("Antes de enviar1: "+Mensagem.mensagemToJson(msg));
 			PrintStream envia = null;
-			for(Object o : emPasta){
-				Mensagem msg = null;
-				if(o instanceof Pasta){
-					msg = new Mensagem(TAG.SEEP, (Pasta)o);
-				}else if(o instanceof Arquivo){
-					msg = new Mensagem(TAG.SEEP, (Arquivo)o);				
+			if (!emPasta.isEmpty()) {
+				for (Object o : emPasta) {
+					Mensagem msg = null;
+					if (o instanceof Pasta) {
+						msg = new Mensagem(TAG.SEEP, (Pasta) o);
+					} else if (o instanceof Arquivo) {
+						msg = new Mensagem(TAG.SEEP, (Arquivo) o);
+					}
+					envia = new PrintStream(conexao.getOutputStream());
+					envia.println(Mensagem.mensagemToJson(msg));
+					System.out.println("Apos enviar: " + Mensagem.mensagemToJson(msg));
 				}
+			} else {
+				Mensagem msg = new Mensagem(TAG.SEEP);
+				System.out.println("   >>>>>  "+ Mensagem.mensagemToJson(msg));
 				envia = new PrintStream(conexao.getOutputStream());
 				envia.println(Mensagem.mensagemToJson(msg));
-				System.out.println("Apos enviar: "+Mensagem.mensagemToJson(msg));
+				System.out.println("   <<<<<  "+ Mensagem.mensagemToJson(msg));
+
 			}
 			envia.close();
 			conexao.close();

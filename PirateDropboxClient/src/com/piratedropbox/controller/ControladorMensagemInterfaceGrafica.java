@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.piratedropbox.model.Arquivo;
 import com.piratedropbox.model.ConnectionClient;
 import com.piratedropbox.model.Mensagem;
-import com.piratedropbox.model.Pasta;
 import com.piratedropbox.model.RetornaIp;
 import com.piratedropbox.model.TAG;
 import com.piratedropbox.model.Usuario;

@@ -101,6 +101,7 @@ public class InterpreterMessage extends ActionByTag {
 	@Override
 	public void loginU(Usuario usuario) {
 		System.out.println("Nulo? "+usuario == null);
+		System.out.println("buceta do caralho!");
 		Mensagem resposta;
 		Pasta pastaRaiz = db.loginU(usuario);
 		if(pastaRaiz != null){

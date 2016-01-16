@@ -152,8 +152,7 @@ public class DBQueries {
 		    }
 		    stmt = conn1.createStatement();
 		    rs = stmt.executeQuery("select fd.id, fd.name from folder fd, folder_folder ff "
-		    		+ "where "+idPasta+" = ff.ID_FOLDER_FATHER and ff.ID_FOLDER_FATHER = fd.id "
-		    				+ "and fd.id = ff.ID_FOLDER_DAUGHTER;");
+		    		+ "where "+idPasta+" = ff.ID_FOLDER_FATHER and fd.id = ff.ID_FOLDER_DAUGHTER; ");
 		    while(rs.next()){
 			    int id = rs.getInt("id");
 				String nome = rs.getString("name");
@@ -301,8 +300,9 @@ public class DBQueries {
 		
 	}
 
-	public Pasta loginU(Usuario usuario1) {
-		Usuario usuario = new Usuario("dudu", "mileninha", "Eduardo", "Lopes");
+	public Pasta loginU(Usuario usuario) {
+//		Usuario usuario = new Usuario("dudu", "mileninha", "Eduardo", "Lopes");
+		System.out.println("-> " + usuario.getUsername() + "    : "+ usuario.getSenha());
 		Statement stmt = null;
 		String username = null;
 		String password = null;
@@ -314,22 +314,28 @@ public class DBQueries {
 				stmt = conn2.createStatement();
 				ResultSet rs = stmt.executeQuery("select u.username, u.senha, f.id as idPasta, f.name as nomePasta from _user u, folder f "
 						+ "where u.USERNAME = '"+usuario.getUsername() + "' and u.ID_ROOT_FOLDER = f.id" );
-				rs.next();
-				username = rs.getString("username");
-				password = rs.getString("senha");
-				if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
-					pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
-					return pastaRaiz;
+				while(rs.next()){
+					username = rs.getString("username");
+					password = rs.getString("senha");
+					System.out.println(" -- "+ username);
+					System.out.println(" -- "+ password);
+					if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
+						pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
+						return pastaRaiz;
+					}
 				}
 			}
 			ResultSet rs = stmt.executeQuery("select u.username, u.senha, f.id as idPasta, f.name as nomePasta from _user u, folder f "
 					+ "where u.USERNAME = '"+usuario.getUsername() + "' and u.ID_ROOT_FOLDER = f.id" );
-			rs.next();
-			username = rs.getString("username");
-			password = rs.getString("senha");
-			if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
-				pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
-				return pastaRaiz;
+			while(rs.next()){
+				username = rs.getString("username");
+				password = rs.getString("senha");
+				System.out.println(" -- "+ username);
+				System.out.println(" -- "+ password);
+				if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
+					pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
+					return pastaRaiz;
+				}
 			}
 			
 		} catch (SQLException e) {
