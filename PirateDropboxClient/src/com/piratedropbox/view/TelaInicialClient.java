@@ -109,7 +109,7 @@ public class TelaInicialClient extends JFrame {
 	 */
 	public TelaInicialClient() {
 		Map<Object, Icon> icons = new HashMap<Object, Icon>();
-		icons.put(Arquivo.class, MetalIconFactory.getFileChooserHomeFolderIcon());
+		icons.put(Arquivo.class, new ImageIcon("img/fileIcon.png"));
 		icons.put(Pasta.class, MetalIconFactory.getTreeFolderIcon());
 		IconListRenderer cellRenderer = new IconListRenderer(icons);
 		listModel = new DefaultListModel<>();

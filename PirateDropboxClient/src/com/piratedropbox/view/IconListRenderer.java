@@ -44,7 +44,7 @@ private Map<Object, Icon> icons = null;
 		
 		Map<Object, Icon> icons = new HashMap<Object, Icon>();
 		icons.put(Arquivo.class, 
-			MetalIconFactory.getFileChooserHomeFolderIcon());
+			new ImageIcon("img/fileIcon.png"));
 		icons.put(Pasta.class, 
 			MetalIconFactory.getTreeFolderIcon());
 		
