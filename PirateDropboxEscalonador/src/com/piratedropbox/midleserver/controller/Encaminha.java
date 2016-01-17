@@ -19,6 +19,7 @@ public class Encaminha implements Runnable {
 	 */
 	@Override
 	public void run() {
+		
 		try { 
 //			Socket socketServidor1 = new Socket("piratedropboxserver1.com", 12345);
 			Socket socketServidor1 = new Socket("127.0.0.1", 12345);
@@ -45,7 +46,7 @@ public class Encaminha implements Runnable {
 		Scanner respostaServidor1 = new Scanner(socketServidor1.getInputStream());
 		
 //		while(respostaServidor1.hasNextLine()) {
-			msgServidor1 = respostaServidor1.nextLine();
+//			msgServidor1 = respostaServidor1.nextLine();
 //			if(msgServidor1 != null) break;
 //		}
 		System.out.println(msgServidor1);

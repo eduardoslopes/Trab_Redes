@@ -1,0 +1,15 @@
+# configuracao da zona piratedropbox.com
+
+$TTL	604800
+@		IN		SOA		<nome da maquina>.piratedropbox.com. root.piratedropbox.com. (
+						100			; Serial
+						604800		; Refresh
+						86400		; Retry
+						2419200		; Expire
+						604800	)	; Negative Cafche TTL
+;
+
+piratedropbox.com		IN		NS		<nome da maquina>.piratedropbox.com.
+piratedropbox.com		IN		A		<endereco do host piratedropbox.com>
+<nome da maquina>		IN		A		<endereco do host piratedropbox.com>
+www		IN		CNAME		piratedropbox.com.
