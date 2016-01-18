@@ -1,0 +1,12 @@
+auto eth0
+iface eth0 inet static
+addres <endereco fixo do servido DNS>
+netmask <mascara da rede>
+network <ip da rede>
+broadcast <endereco de broadcast da rede>
+gateway <endereco de gateway>
+
+# essa interface é configurada de forma fixa para que o 
+# servidor responda sempre neste endereco
+# arquivo com essa configuracao: /etc/network/interfaces
+# apos configurar, reiniciar a maquina

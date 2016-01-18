@@ -1,0 +1,18 @@
+# configuracao da zona piratedropboxserver1.com
+# a configuracao da zona piratedropboxserver2.com é bem semalhante
+# substituir apenas piratedropboxserver1.com por piratedropboxserver2.com
+# e o endereco de piratedropboxserver1.com pelo endereco de piratedropboxserver2.com
+
+$TTL	604800
+@		IN		SOA		<nome da maquina>.piratedropboxserver1.com. root.piratedropboxserver1.com. (
+						100			; Serial
+						604800		; Refresh
+						86400		; Retry
+						2419200		; Expire
+						604800	)	; Negative Cafche TTL
+;
+
+piratedropboxserver1.com		IN		NS		<nome da maquina>.piratedropboxserver1.com.
+piratedropboxserver1.com		IN		A		<endereco do host piratedropboxserver1.com>
+<nome da maquina>		IN		A		<endereco do host piratedropboxserver1.com>
+www		IN		CNAME		piratedropboxserver1.com.

@@ -1,0 +1,10 @@
+# no caso da nossa aplicacao configuraremos os seguintes arquivos dentro do diretorio /etc/bind
+
+#1 named.conf.options
+#2 named.conf.local
+#3 db.piratedropbox.com
+#4 db.piratedropboxserver1.com
+#5 db.piratedropboxserver2.com
+#6 db.reverse
+
+# a configuracao de cada um desses arquivos estarao em arquivos de mesmo nome aqui na pasta "configuracaoDNS"

@@ -1,0 +1,22 @@
+# neste arquivo será feita a configuração das zonas que irao existir
+
+zone "piratedropbox.com" {
+	type master;
+	file "/etc/bin/db.piratedropbox.com";
+}
+
+zone "piratedropboxserver1.com" {
+	type master;
+	file "/etc/bin/db.piratedropboxserver1.com";
+}
+
+zone "piratedropboxserver2.com" {
+	type master;
+	file "/etc/bin/db.piratedropboxserver2.com";
+}
+
+# configura o DNS reverso
+zone "<os tres primeiros numeros do ip de tras pra frente>.in-addr.arpa" {
+	type master;
+	file "/etc/bin/db.reverse";
+}

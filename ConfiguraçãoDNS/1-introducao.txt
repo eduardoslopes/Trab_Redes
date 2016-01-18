@@ -1,0 +1,4 @@
+# antes de tudo é necessário instalar o aplicativo bind
+# depois iremos configurar a interface de rede da maquina usada (/etc/network/interfaces)
+# após isso iremos configurar as zonas dentro do bind (/etc/bind)
+# e então reiniciar o bind para a nova configuracao (sudo /etc/init.d/bind9 restart)

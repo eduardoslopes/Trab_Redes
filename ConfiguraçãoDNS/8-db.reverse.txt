@@ -1,0 +1,16 @@
+# para cada zona direta cria-se uma zona reversa
+# não é extritamente necessario configurar a zona reversa
+# pode nao haver interesse no uso
+# seguirá o exemplo de dns reverso para piratedropboxserver1.com
+
+$TTL	604800
+@		IN		SOA		<nome da maquina>.piratedropboxserver1.com. root.piratedropboxserver1.com. (
+						100			; Serial
+						604800		; Refresh
+						86400		; Retry
+						2419200		; Expire
+						604800	)	; Negative Cafche TTL
+;
+
+		IN 		NS 		<nome da maquina>
+<ultimo numero do ip>		IN 		PTR 		<nome da maquina>.piratedropboxserver1.com.

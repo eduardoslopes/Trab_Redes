@@ -1,0 +1,8 @@
+# nesse arquivo iremos alterar somente a parte "forwarders"
+
+forwarders {
+	<ip do servidor DNS>
+	<algum outro DNS>
+}
+
+# o segundo DNS servirá para ter acesso a internet
