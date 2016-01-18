@@ -20,13 +20,15 @@ public class Encaminha implements Runnable {
 	@Override
 	public void run() {
 		
+		Socket socketServidor1 = null;
+		Socket socketServidor2 = null;
 		try { 
-//			Socket socketServidor1 = new Socket("piratedropboxserver1.com", 12345);
-			Socket socketServidor1 = new Socket("127.0.0.1", 12345);
-
-//			Socket socketServidor2 = new Socket("piratedropboxserver2.com", 23456);
-//			Socket escolhido = verificaServidor(socketServidor1, socketServidor2);
-			PrintStream saida = new PrintStream(socketServidor1.getOutputStream());
+			socketServidor1 = new Socket("piratedropboxserver1.com", 12345);
+			socketServidor2 = new Socket("piratedropboxserver2.com", 23456);
+			
+			Socket escolhido = verificaServidor(socketServidor1, socketServidor2);
+			
+			PrintStream saida = new PrintStream(escolhido.getOutputStream());
 			System.out.println("Enviando...");
 			saida.println(this.msgCliente);
 			System.out.println("Enviou");
@@ -40,40 +42,50 @@ public class Encaminha implements Runnable {
 	 * Retorna para o metodo run
 	 */
 	private Socket verificaServidor(Socket socketServidor1, Socket socketServidor2) throws IOException {
-		String msgServidor1 = null;		
-		PrintStream saida1 = new PrintStream(socketServidor1.getOutputStream());
+		String msgServidor1 = null;	
+		Socket trafego1 = new Socket("piratedropboxserver1.com", 12345);
+		PrintStream saida1 = new PrintStream(trafego1.getOutputStream());
 		saida1.println("TRAFEGO");
-		Scanner respostaServidor1 = new Scanner(socketServidor1.getInputStream());
+		Scanner respostaServidor1 = new Scanner(trafego1.getInputStream());
 		
-//		while(respostaServidor1.hasNextLine()) {
-//			msgServidor1 = respostaServidor1.nextLine();
-//			if(msgServidor1 != null) break;
-//		}
+		while(respostaServidor1.hasNextLine()) {
+			msgServidor1 = respostaServidor1.nextLine();
+			if(msgServidor1 != null) break;
+		}
 		System.out.println(msgServidor1);
 		
 		String msgServidor2 = null;
-		PrintStream saida2 = new PrintStream(socketServidor1.getOutputStream());
+		Socket trafego2 = new Socket("piratedropboxserver2.com", 23456);
+		PrintStream saida2 = new PrintStream(trafego2.getOutputStream());
 		saida2.println("TRAFEGO");
-		Scanner respostaServidor2 = new Scanner(socketServidor1.getInputStream());
+		Scanner respostaServidor2 = new Scanner(trafego2.getInputStream());
 		
-//		while(respostaServidor2.hasNextLine()) {
-//			msgServidor2 = respostaServidor2.nextLine();
-//			if(msgServidor2 != null) break;
-//		}
-//		System.out.println(msgServidor2);
+		while(respostaServidor2.hasNextLine()) {
+			msgServidor2 = respostaServidor2.nextLine();
+			if(msgServidor2 != null) break;
+		}
+		System.out.println(msgServidor2);
 		
-		saida1.close();
-		saida2.close();
 		respostaServidor1.close();
 		respostaServidor2.close();
+		trafego1.close();
+		trafego2.close();
 		
-		if(msgServidor2 == null)
+		if (msgServidor2 == null) {
+			System.out.println("Enviando para servidor 1");
 			return socketServidor1;
-		if(msgServidor1 == null)
+		}
+		else if (msgServidor1 == null) {
+			System.out.println("Enviando para servidor 2");
 			return socketServidor2;
-		if(Integer.parseInt(msgServidor1) <= Integer.parseInt(msgServidor2))
+		}
+		else if (Integer.parseInt(msgServidor1) <= Integer.parseInt(msgServidor2)) {
+			System.out.println("Enviando para servidor 1");
 			return socketServidor1;
-		else
-			return socketServidor2;		
+		}
+		else {
+			System.out.println("Enviando para servidor 2");
+			return socketServidor2;
+		}
 	}
 }
