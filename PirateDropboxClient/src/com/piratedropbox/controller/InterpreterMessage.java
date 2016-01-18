@@ -25,122 +25,114 @@ import com.piratedropbox.view.Login;
 import com.piratedropbox.view.TelaInicialClient;
 
 public class InterpreterMessage extends ActionByTag {
-	
+
 	@Override
 	public void insertAP(Mensagem msg) {
-		// TODO Auto-generated method stub
-		
+//		System.out.println( "InsertAP: " msg.toString());
+		ControladorMensagemInterfaceGrafica controlador =new ControladorMensagemInterfaceGrafica();
+		controlador.carregarArquivos(Main.telaInicialCliente.getIdPastaAtual());
 	}
 
 	@Override
 	public void insertPP(Mensagem msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void createP(Mensagem msg) {
-		if(msg.getTAG().equals(TAG.CREATEP)){
+		if (msg.getTAG().equals(TAG.CREATEP)) {
 			JOptionPane.showMessageDialog(null, "Pasta criada com sucesso!");
+			ControladorMensagemInterfaceGrafica controlador =new ControladorMensagemInterfaceGrafica();
+			controlador.carregarArquivos(Main.telaInicialCliente.getIdPastaAtual());
 		}
-		else{
-			JOptionPane.showMessageDialog(null, "Falha ao criar pasta!");
-		}
-		
+
 	}
 
 	@Override
 	public void seeP(Mensagem msg) {
-		if(msg.getTAG().equals(TAG.SEEP)){
+		if (msg.getTAG().equals(TAG.SEEP)) {
 			List<Object> arquivos = new ArrayList<Object>();
-			System.out.println(((Arquivo)msg.getEmPasta().get(0)).getNome() ); 
-				Main.telaInicialCliente.carregarObjetos(arquivos);
+			System.out.println(((Arquivo) msg.getEmPasta().get(0)).getNome());
+			Main.telaInicialCliente.carregarObjetos(arquivos);
 		}
-		
+
 	}
 
 	@Override
 	public void downA(Mensagem msg) {
-		if(msg.getTAG().equals(TAG.DOWNA)){
+		if (msg.getTAG().equals(TAG.DOWNA)) {
 			FileInputStream fileInputStream;
-			
 			try {
-				//JFileChooser arquivoSeleciona = new JFileChooser(); 
-				//arquivoSeleciona.setDialogTitle("Abrir Arquivo");
-				//arquivoSeleciona.getCurrentDirectory();
-				//arquivoSeleciona.showOpenDialog(null);
-				//File file = arquivoSeleciona.getSelectedFile();
-				//Path path = Paths.get(file.getPath());
-				
-				
-			byte[] ArquivoBytes = msg.getArquivo().getArquivoBruto();
-			File file = new File("/home/julioserafim/Downloads/" + msg.getArquivo().getNome());
-			FileOutputStream fileOuputStream = new FileOutputStream(file);
-			BufferedOutputStream buffer = new BufferedOutputStream(fileOuputStream);
-		    //Converte array de bytes em file
-		     buffer.write(ArquivoBytes);
-		     buffer.close();
-		    //fileOuputStream.write(ArquivoBytes);
-		   // fileOuputStream.close();
-		    
-			}catch(Exception e){
-	            e.printStackTrace();
-	        }
-			
+				JFileChooser arquivoSeleciona = new JFileChooser();
+				arquivoSeleciona.setDialogTitle("Salvar Arquivo");
+				arquivoSeleciona.getCurrentDirectory();
+				arquivoSeleciona.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				arquivoSeleciona.showSaveDialog(null);
+				File file = arquivoSeleciona.getSelectedFile();
+				byte[] ArquivoBytes = msg.getArquivo().getArquivoBruto();
+				FileOutputStream fileOuputStream = new FileOutputStream(
+						file.toString() + "/" + msg.getArquivo().getNome());
+				BufferedOutputStream buffer = new BufferedOutputStream(fileOuputStream);
+				buffer.write(ArquivoBytes);
+				buffer.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
-		
-		else if(msg.getArquivo() == null){
+
+		else if (msg.getArquivo() == null) {
 			JOptionPane.showMessageDialog(null, "Falha na operação de Download");
 		}
-		
+
 	}
 
 	@Override
 	public void shareA(Mensagem msg) {
-		if(msg.getTAG().equals(TAG.SHAREA)){
+		if (msg.getTAG().equals(TAG.SHAREA)) {
 			JOptionPane.showMessageDialog(null, "Arquivo Compartilhado");
 		}
-		
+
 	}
 
 	@Override
 	public void shareP(Mensagem msg) {
-		if(msg.getTAG().equals(TAG.SHAREP)){
+		if (msg.getTAG().equals(TAG.SHAREP)) {
 			JOptionPane.showMessageDialog(null, "Pasta Compartilhada");
 		}
-		
+
 	}
 
 	@Override
 	public void createU(Mensagem msg) {
-		if(msg.getTAG().equals(TAG.CREATEU)){
+		if (msg.getTAG().equals(TAG.CREATEU)) {
 			JOptionPane.showMessageDialog(null, "Usuário criado com sucesso");
 		}
-		
-		else{
+
+		else {
 			JOptionPane.showMessageDialog(null, "Falha ao criar usuário");
 		}
-		
+
 	}
 
 	@Override
 	public void loginU(Mensagem msg) {
-		if(msg.getTAG().equals(TAG.LOGINU)){
+		if (msg.getTAG().equals(TAG.LOGINU)) {
 			Login login = new Login();
 			login.setPodeLogar(true);
-			System.out.println("mensagem" + msg.getId());
 			ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 			controlador.carregarArquivos(msg.getPasta().getId());
 			Main.telaInicialCliente.setVisible(true);
 			Main.telaInicialCliente.setPasta(msg.getPasta().getId());
-//			telaCliente.pack();
-//			telaCliente.setVisible(true);
-			
+			// telaCliente.pack();
+			// telaCliente.setVisible(true);
+
 		}
-		
+
 		// msg.getPasta();
-		
-		else{
+
+		else {
 			JOptionPane.showMessageDialog(null, "Falha na operação de login");
 		}
 
@@ -149,14 +141,13 @@ public class InterpreterMessage extends ActionByTag {
 	@Override
 	public void fail(Mensagem msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void success(Mensagem msg) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 }

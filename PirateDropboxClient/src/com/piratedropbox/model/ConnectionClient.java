@@ -33,8 +33,8 @@ public class ConnectionClient{
 	public void openConnection(String host,int porta) throws IOException{
 		try {
 			System.out.println("Aidento");
-//			socket = new Socket("piratedropbox.com",12345);
-			socket = new Socket("127.0.0.1",23456);
+			socket = new Socket("piratedropbox.com",54321);
+//			socket = new Socket("127.0.0.1",23456);
 			System.out.println(":P "+socket.toString());
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintStream(socket.getOutputStream());
@@ -44,7 +44,7 @@ public class ConnectionClient{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			socket.close();
+//			socket.close();
 		}
 	}
 	

@@ -12,6 +12,7 @@ import com.piratedropbox.controller.ControladorRecebecimento;
 import com.piratedropbox.controller.Criptografia;
 import com.piratedropbox.model.Arquivo;
 import com.piratedropbox.model.Usuario;
+import com.piratedropbox.test.Main;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -91,8 +92,8 @@ public class CriarUsuario extends JFrame {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String username = txtNome.getText();
-				String nome = textSobrenome.getText();
+				String username = textUsername.getText();
+				String nome = txtNome.getText();
 				String sobrenome = textSobrenome.getText();
 
 				String senha = textSenha.getText();
@@ -112,6 +113,8 @@ public class CriarUsuario extends JFrame {
 				System.out.println(senha);
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 				controlador.criarUsuario(usuario);
+				Main.login.setVisible(true);
+				Main.criarUsuario.setVisible(false);
 
 			}
 		});

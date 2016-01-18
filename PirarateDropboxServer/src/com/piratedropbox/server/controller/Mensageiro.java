@@ -28,11 +28,11 @@ public class Mensageiro extends Thread implements Runnable{
 	public void enviarMensagem(){
 		try {
 			System.out.println("Aqui <- ");
-			System.out.println("Antes de enviar1: "+Mensagem.mensagemToJson(msg));
+//			System.out.println("Antes de enviar1: "+Mensagem.mensagemToJson(msg));
 			PrintStream envia;
 			envia = new PrintStream(conexao.getOutputStream());
 			envia.println(Mensagem.mensagemToJson(msg));
-			System.out.println("Antes de enviar: "+Mensagem.mensagemToJson(msg));
+			System.out.println("Depois de enviar: "+Mensagem.mensagemToJson(msg));
 			conexao.close();
 		} catch (IOException e) {
 			e.printStackTrace();

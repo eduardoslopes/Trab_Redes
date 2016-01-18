@@ -13,17 +13,6 @@ import com.piratedropbox.test.Main;
 public class ControladorRecebecimento { // extends Thread{
 	private ServerSocket server;
 
-	//
-	// @Override
-	// public void run() {
-	// try {
-	// recebeConexao();
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-
 	public ControladorRecebecimento() throws IOException {
 		server = new ServerSocket(9999);
 	}
@@ -31,13 +20,7 @@ public class ControladorRecebecimento { // extends Thread{
 	public void recebeConexao() throws IOException {
 
 		while (true) {
-			// System.out.println("aident");
-			// Socket novaConexao = server.accept();
-			// Receiver receiver = new Receiver(novaConexao);
-			// receiver.start();
-			System.out.println("veio aqui! :(");
 			Socket socketCliente = server.accept();
-			System.out.println("veio aqui! :(2");
 			Scanner scanner;
 			InterpreterMessage im = new InterpreterMessage();
 
@@ -47,7 +30,7 @@ public class ControladorRecebecimento { // extends Thread{
 				System.out.println("1");
 
 				msg = scanner.nextLine();
-				System.out.println("sdfsdf - " + msg);
+//				System.out.println("sdfsdf - " + msg);
 				Mensagem m = Mensagem.jsonToMensagem(msg);
 
 				List<Object> obj = null;
@@ -80,7 +63,7 @@ public class ControladorRecebecimento { // extends Thread{
 					Main.telaInicialCliente.carregarObjetos(obj);
 				} else {
 
-					System.out.println("mensagemJson: " + msg);
+//					System.out.println("mensagemJson: " + msg);
 
 					im.messageInterpreter(m);
 				}

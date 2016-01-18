@@ -20,6 +20,7 @@ import com.piratedropbox.model.Arquivo;
 import com.piratedropbox.model.Mensagem;
 import com.piratedropbox.model.Pasta;
 import com.piratedropbox.model.TAG;
+import com.piratedropbox.test.Main;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -117,7 +118,7 @@ public class TelaInicialClient extends JFrame {
 		System.out.println(listModel.size());
 		pilhaPastas = new Stack<>();
 		
-		setTitle("Tela Ciente");
+		setTitle("Tela Cliente");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 616, 476);
 		contentPane = new JPanel();
@@ -152,16 +153,8 @@ public class TelaInicialClient extends JFrame {
 		JButton button = new JButton("Carregar Arquivos");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 				controlador.carregarArquivos(idPastaAtual);
-
-				// CustomListCellRendererArquivo clcra = new
-				// CustomListCellRendererArquivo();
-				// jlist.setCellRenderer(clcra);;
-
-				// DefaultListModel list = new DefaultListModel();
-
 			}
 
 		});
@@ -233,30 +226,7 @@ public class TelaInicialClient extends JFrame {
 					e1.printStackTrace();
 				}
 
-				Arquivo arquivo = new Arquivo(file.getName(), data);// Adicionando
-																	// ao JList
-
-				listModel.addElement(arquivo);
-				jlist.setModel(listModel);
-
-				// CustomListCellRendererArquivo campoArquivo = new
-				// CustomListCellRendererArquivo();// Renderizar
-
-				IconListRenderer iconRenderizado = new IconListRenderer(icons);
-				jlist.setCellRenderer(iconRenderizado);
-				System.out.println("impressao" + icons);// só
-														// pasta
-														// com
-														// imagem
-														// de
-														// pasta
-				// for (int i = 0; i < listModel.size(); i++) {
-				// if (listModel.get(i).getClass().isInstance(arquivo)) {
-				// jlist.setCellRenderer(campoArquivo);
-				// }
-				// }
-				// System.out.println(listModel.size());
-				System.out.println("id pasta atual fela:" + idPastaAtual);
+				Arquivo arquivo = new Arquivo(file.getName(), data);
 				ControladorMensagemInterfaceGrafica controlador = new ControladorMensagemInterfaceGrafica();
 				controlador.uparArquivo(arquivo, idPastaAtual);
 			}
@@ -284,11 +254,12 @@ public class TelaInicialClient extends JFrame {
 		JMenuItem menuItem = new JMenuItem("Sair");
 		menuItem.addActionListener(new ActionListener() {
 
-	public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+			public void actionPerformed(ActionEvent e) {
+				Main.login.setVisible(true);
+				Main.telaInicialCliente.setVisible(false);
 			}
 		});
-		menuItem.setBounds(428, 0, 129, 19);
+		menuItem.setBounds(553, 0, 49, 19);
 		contentPane.add(menuItem);
 
 		JButton btnCriarPasta = new JButton("Criar Pasta");
@@ -329,5 +300,11 @@ public class TelaInicialClient extends JFrame {
 	public void setPasta(int idPasta) {
 		this.idPastaAtual = idPasta;
 	}
+
+	public int getIdPastaAtual() {
+		return idPastaAtual;
+	}
+	
+	
 	
 }

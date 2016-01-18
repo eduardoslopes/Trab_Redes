@@ -63,8 +63,8 @@ public class ControladorMensagemInterfaceGrafica {
 	private void sender(Mensagem mensagem){
 		ConnectionClient conexao = new ConnectionClient();
 		try {
-//			conexao.openConnection("piratedropbox.com", 12345);
-			conexao.openConnection("127.0.0.1", 23456);
+			conexao.openConnection("piratedropbox.com", 54321);
+//			conexao.openConnection("127.0.0.1", 23456);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -28,8 +28,8 @@ public class Main {
 		//Map<Object, Icon> icons = new HashMap<Object, Icon>();
 		//icons.put(ar
 		
-		//criarUsuario = new CriarUsuario();
-		//criarUsuario.setVisible(true);
+		criarUsuario = new CriarUsuario();
+		criarUsuario.setVisible(false);
 		
 		
 		login = new Login();

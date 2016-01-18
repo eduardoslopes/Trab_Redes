@@ -25,7 +25,7 @@ public class InterpreterMessage extends ActionByTag {
 	public void insertAP(Arquivo arquivo, int idPasta) {
 		Mensagem resposta;
 		if(db.insertAP(arquivo, idPasta)){
-			resposta = new Mensagem(TAG.SUCCESS);
+			resposta = new Mensagem(TAG.INSERTAP);
 		}else{
 			resposta = new Mensagem(TAG.FAIL);
 		}

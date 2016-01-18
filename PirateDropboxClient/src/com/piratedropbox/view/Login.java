@@ -109,6 +109,8 @@ public class Login extends JFrame {
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Main.criarUsuario.setVisible(true);
+				Main.login.setVisible(false);
 //				CriarUsuario criarUsuario = new CriarUsuario();
 //				criarUsuario.pack();
 //				criarUsuario.setVisible(true);
