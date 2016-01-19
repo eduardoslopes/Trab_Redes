@@ -1,6 +1,12 @@
-package com.piratedropbox.server.model;
+package com.piratedropbox.server.controller;
 
 import java.util.List;
+
+import com.piratedropbox.server.model.Arquivo;
+import com.piratedropbox.server.model.Mensagem;
+import com.piratedropbox.server.model.Pasta;
+import com.piratedropbox.server.model.TAG;
+import com.piratedropbox.server.model.Usuario;
 
 //TAG      |        UC
 //---------|---------------------------------------|

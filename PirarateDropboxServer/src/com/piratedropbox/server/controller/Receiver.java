@@ -27,20 +27,16 @@ public class Receiver extends Thread implements Runnable {
 			String msg = null;
 			
 			msg = scanner.nextLine();
-//			System.out.println("receiver: - "+msg);
-				
 			if(msg.equals("TRAFEGO")){
 				System.out.println("1");
 				int trafego = VerificadorTrafego.verificaTrafego();
-				System.out.println("trafego: " + trafego);
-				EnviaTrafego et = new EnviaTrafego(sender, trafego);
+				EnviaTrafego et = new EnviaTrafego(sender, trafego, this);
 				et.start();
 			}else{
 				Mensagem m = Mensagem.jsonToMensagem(msg);
 				InterpreterMessage im = new InterpreterMessage();
 				im.messageInterpreter(m);
 			}
-//			sender.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

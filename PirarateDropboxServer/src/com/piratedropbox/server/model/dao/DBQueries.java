@@ -317,8 +317,6 @@ public class DBQueries {
 				while(rs.next()){
 					username = rs.getString("username");
 					password = rs.getString("senha");
-					System.out.println(" -- "+ username);
-					System.out.println(" -- "+ password);
 					if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
 						pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
 						return pastaRaiz;
@@ -330,8 +328,6 @@ public class DBQueries {
 			while(rs.next()){
 				username = rs.getString("username");
 				password = rs.getString("senha");
-				System.out.println(" -- "+ username);
-				System.out.println(" -- "+ password);
 				if(username.equals(usuario.getUsername()) && password.equals(usuario.getSenha())){
 					pastaRaiz = new Pasta(rs.getInt("idPasta"), rs.getString("nomePasta"));
 					return pastaRaiz;

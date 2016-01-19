@@ -24,39 +24,15 @@ public class Main {
 	public static CriarUsuario criarUsuario = null;
 	
 	public static void main(String[] args) throws IOException {
-		//Arquivo arquivo = new Arquivo(2,"Arquivo");
-		//Map<Object, Icon> icons = new HashMap<Object, Icon>();
-		//icons.put(ar
-		
 		criarUsuario = new CriarUsuario();
 		criarUsuario.setVisible(false);
 		
 		
 		login = new Login();
 		login.setVisible(true);
-//		if(login.podeLogar == true){
-//			
-//		}
-	
-		
-		
-		
-	   telaInicialCliente = new TelaInicialClient();
-	   //telaInicialCliente.setVisible(true);
-	   ControladorRecebecimento controladorRecebimento = new ControladorRecebecimento();
-	   controladorRecebimento.recebeConexao();
-		
-		///CriarUsuario criarUsuario = new CriarUsuario();
-		//criarUsuario.setVisible(true);
-		
-		//Login login = new Login();
-		//login.setVisible(true);
-		
-		
-		
-		
-		
-	    //controladorRecebimento.recebeConexao();
 
+		telaInicialCliente = new TelaInicialClient();
+		ControladorRecebecimento controladorRecebimento = new ControladorRecebecimento();
+		controladorRecebimento.recebeConexao();
 	}
 }

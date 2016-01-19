@@ -168,7 +168,7 @@ public class TelaInicialClient extends JFrame {
 
 				if (jlist.getSelectedValue() instanceof Arquivo) {
 					arquivo = (Arquivo) jlist.getSelectedValue();
-					String userName = JOptionPane.showInputDialog("Qual seu nome de usuário?");
+					String userName = JOptionPane.showInputDialog("Qual username do usuário com quem deseja compartilhar?");
 
 					ControladorMensagemInterfaceGrafica controladorArquivo = new ControladorMensagemInterfaceGrafica();// Compartilha
 																														// Arquivo
@@ -289,7 +289,7 @@ public class TelaInicialClient extends JFrame {
 					controlador.carregarArquivos(idPastaAnterior);
 					idPastaAtual = idPastaAnterior;
 				}else{
-					
+					JOptionPane.showMessageDialog(null, "Você já está na pasta raiz");
 				}
 			}
 		});

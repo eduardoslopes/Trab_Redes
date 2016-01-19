@@ -125,9 +125,7 @@ public class InterpreterMessage extends ActionByTag {
 			controlador.carregarArquivos(msg.getPasta().getId());
 			Main.telaInicialCliente.setVisible(true);
 			Main.telaInicialCliente.setPasta(msg.getPasta().getId());
-			// telaCliente.pack();
-			// telaCliente.setVisible(true);
-
+			Main.login.setVisible(false);
 		}
 
 		// msg.getPasta();

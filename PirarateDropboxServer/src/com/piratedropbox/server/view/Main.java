@@ -4,21 +4,19 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.SQLException;
+
+import com.piratedropbox.server.controller.ServerController;
 
 public class Main {
 
-	public static void main(String[] args) {
-		try {
-			Socket s = new Socket("192.168.0.105", 9999);
-			PrintStream ps = new PrintStream(s.getOutputStream());
-			ps.println("Buceta!");
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException {
+		
+//		ServerController sc1 = new ServerController(12345);
+//		sc1.executa();
+		
+		ServerController sc2 = new ServerController(23456);
+		sc2.executa();
 		
 	}
 

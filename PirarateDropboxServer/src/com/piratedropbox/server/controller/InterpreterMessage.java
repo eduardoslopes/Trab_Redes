@@ -5,7 +5,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import com.piratedropbox.server.model.ActionByTag;
 import com.piratedropbox.server.model.Arquivo;
 import com.piratedropbox.server.model.Mensagem;
 import com.piratedropbox.server.model.Pasta;
@@ -60,7 +59,6 @@ public class InterpreterMessage extends ActionByTag {
 		Mensagem resposta;
 		Arquivo arquivo = db.downA(idArquivo);
 		System.out.println(arquivo == null);
-		System.out.println("Nome: "+arquivo.getNome()+ " bytes: "+ arquivo.getArquivoBruto());
 		resposta = new Mensagem(TAG.DOWNA, arquivo);
 		sender(resposta);
 	}
@@ -100,8 +98,6 @@ public class InterpreterMessage extends ActionByTag {
 
 	@Override
 	public void loginU(Usuario usuario) {
-		System.out.println("Nulo? "+usuario == null);
-		System.out.println("buceta do caralho!");
 		Mensagem resposta;
 		Pasta pastaRaiz = db.loginU(usuario);
 		if(pastaRaiz != null){
@@ -114,7 +110,6 @@ public class InterpreterMessage extends ActionByTag {
 
 	private void sender(Mensagem resposta){
 		try {
-			System.out.println( "IP: "+ this.msg.getIpCliente());
 			Socket sock = new Socket(this.msg.getIpCliente(), 9999);
 			Mensageiro m = new Mensageiro(sock, resposta);
 			m.start();
@@ -128,7 +123,6 @@ public class InterpreterMessage extends ActionByTag {
 	
 	private void sender(List<Object> emPasta){
 		try {
-			System.out.println( "IP: "+ this.msg.getIpCliente());
 			Socket sock = new Socket(this.msg.getIpCliente(), 9999);
 			MensageiroDePasta m = new MensageiroDePasta(sock, emPasta);
 			m.start();

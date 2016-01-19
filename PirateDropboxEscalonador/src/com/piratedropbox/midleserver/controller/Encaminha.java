@@ -23,10 +23,8 @@ public class Encaminha implements Runnable {
 		Socket socketServidor1 = null;
 		Socket socketServidor2 = null;
 		try { 
-			socketServidor1 = new Socket("piratedropboxserver1.com", 12345);
-			socketServidor2 = new Socket("piratedropboxserver2.com", 23456);
 			
-			Socket escolhido = verificaServidor(socketServidor1, socketServidor2);
+			Socket escolhido = verificaServidor();
 			
 			PrintStream saida = new PrintStream(escolhido.getOutputStream());
 			System.out.println("Enviando...");
@@ -41,9 +39,10 @@ public class Encaminha implements Runnable {
 	 * Verifica servidor menos carregado
 	 * Retorna para o metodo run
 	 */
-	private Socket verificaServidor(Socket socketServidor1, Socket socketServidor2) throws IOException {
+	private Socket verificaServidor() throws IOException {
 		String msgServidor1 = null;	
 		Socket trafego1 = new Socket("piratedropboxserver1.com", 12345);
+//		Socket trafego1 = new Socket("127.0.0.1", 12345);
 		PrintStream saida1 = new PrintStream(trafego1.getOutputStream());
 		saida1.println("TRAFEGO");
 		Scanner respostaServidor1 = new Scanner(trafego1.getInputStream());
@@ -56,6 +55,7 @@ public class Encaminha implements Runnable {
 		
 		String msgServidor2 = null;
 		Socket trafego2 = new Socket("piratedropboxserver2.com", 23456);
+//		Socket trafego2 = new Socket("127.0.0.1", 23456);
 		PrintStream saida2 = new PrintStream(trafego2.getOutputStream());
 		saida2.println("TRAFEGO");
 		Scanner respostaServidor2 = new Scanner(trafego2.getInputStream());
@@ -73,19 +73,27 @@ public class Encaminha implements Runnable {
 		
 		if (msgServidor2 == null) {
 			System.out.println("Enviando para servidor 1");
-			return socketServidor1;
+//			socketServidor1 = new Socket("piratedropboxserver1.com", 12345);
+//			socketServidor2 = new Socket("piratedropboxserver2.com", 23456);
+//			socketServidor1 = new Socket("127.0.0.1", 12345);
+//			socketServidor2 = new Socket("127.0.0.1", 23456);
+//			return new Socket("127.0.0.1", 12345);
+			return new Socket("piratedropboxserver1.com", 12345);
 		}
 		else if (msgServidor1 == null) {
 			System.out.println("Enviando para servidor 2");
-			return socketServidor2;
+//			return new Socket("127.0.0.1", 23456);
+			return new Socket("piratedropboxserver2.com", 23456);
 		}
 		else if (Integer.parseInt(msgServidor1) <= Integer.parseInt(msgServidor2)) {
 			System.out.println("Enviando para servidor 1");
-			return socketServidor1;
+//			return new Socket("127.0.0.1", 12345);
+			return new Socket("piratedropboxserver1.com", 12345);
 		}
 		else {
 			System.out.println("Enviando para servidor 2");
-			return socketServidor2;
+//			return new Socket("127.0.0.1", 23456);
+			return new Socket("piratedropboxserver2.com", 23456);
 		}
 	}
 }

@@ -30,7 +30,6 @@ public class ControladorRecebecimento { // extends Thread{
 				System.out.println("1");
 
 				msg = scanner.nextLine();
-//				System.out.println("sdfsdf - " + msg);
 				Mensagem m = Mensagem.jsonToMensagem(msg);
 
 				List<Object> obj = null;
@@ -49,7 +48,6 @@ public class ControladorRecebecimento { // extends Thread{
 
 						m = Mensagem.jsonToMensagem(msg);
 						if (m.getTAG().equals(TAG.SEEP)) {
-							System.out.println("seep - " + msg);
 							if (m.getArquivo() == null) {
 								if (m.getPasta() != null)
 									obj.add(m.getPasta());
@@ -62,9 +60,6 @@ public class ControladorRecebecimento { // extends Thread{
 					}
 					Main.telaInicialCliente.carregarObjetos(obj);
 				} else {
-
-//					System.out.println("mensagemJson: " + msg);
-
 					im.messageInterpreter(m);
 				}
 			} catch (IOException e) {

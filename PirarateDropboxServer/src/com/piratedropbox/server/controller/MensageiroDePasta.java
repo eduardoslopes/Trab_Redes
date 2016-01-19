@@ -29,8 +29,6 @@ public class MensageiroDePasta extends Thread implements Runnable{
 	
 	public void enviarMensagem(){
 		try {
-			System.out.println("Aqui <- ");
-//			System.out.println("Antes de enviar1: "+Mensagem.mensagemToJson(msg));
 			PrintStream envia = null;
 			if (!emPasta.isEmpty()) {
 				for (Object o : emPasta) {
@@ -42,15 +40,11 @@ public class MensageiroDePasta extends Thread implements Runnable{
 					}
 					envia = new PrintStream(conexao.getOutputStream());
 					envia.println(Mensagem.mensagemToJson(msg));
-					System.out.println("Apos enviar: " + Mensagem.mensagemToJson(msg));
 				}
 			} else {
 				Mensagem msg = new Mensagem(TAG.SEEP);
-				System.out.println("   >>>>>  "+ Mensagem.mensagemToJson(msg));
 				envia = new PrintStream(conexao.getOutputStream());
 				envia.println(Mensagem.mensagemToJson(msg));
-				System.out.println("   <<<<<  "+ Mensagem.mensagemToJson(msg));
-
 			}
 			envia.close();
 			conexao.close();

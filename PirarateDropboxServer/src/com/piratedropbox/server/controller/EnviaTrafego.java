@@ -8,10 +8,12 @@ import java.net.Socket;
 public class EnviaTrafego extends Thread implements Runnable {
 	private Socket conexao; 
 	private int trafego;
+	private Receiver receiver;
 		
-	public EnviaTrafego(Socket conexao, int trafego){
+	public EnviaTrafego(Socket conexao, int trafego, Receiver receiver){
 		this.conexao = conexao;
 		this.trafego = trafego;
+		this.receiver = receiver;
 	}
 	
 	@Override
@@ -27,6 +29,7 @@ public class EnviaTrafego extends Thread implements Runnable {
 			envia.println(trafego+"");
 			System.out.println("Depois de enviar: "+trafego);
 			conexao.close();
+			ServerController.connections.remove(receiver);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -74,9 +74,7 @@ public class Login extends JFrame {
 				String userName = txtLogin.getText();
 				String senha = null;
 				try {
-					senha = Criptografia.convertPasswordToMD5(txtSenha.getText());
-					System.out.println(txtSenha.getText());// Criptografar senha
-					
+					senha = Criptografia.convertPasswordToMD5(txtSenha.getText());					
 				} catch (NoSuchAlgorithmException e2) {
 					//TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -111,11 +109,7 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Main.criarUsuario.setVisible(true);
 				Main.login.setVisible(false);
-//				CriarUsuario criarUsuario = new CriarUsuario();
-//				criarUsuario.pack();
-//				criarUsuario.setVisible(true);
-//				
-				
+	
 			}
 		});
 		btnCadastrar.setBounds(193, 111, 117, 25);
